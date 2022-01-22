@@ -372,10 +372,10 @@ CompositeCollider2D:
   m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
-    - - {x: 0.9999607, y: 0.00001}
-      - {x: 0.9999607, y: 0.99999}
-      - {x: 0.00001, y: 0.9999607}
-      - {x: 0.0000393, y: 0.00001}
+    - - {x: 0.99997073, y: 0}
+      - {x: 0.99997073, y: 1}
+      - {x: 0, y: 0.99997073}
+      - {x: 0.000029300001, y: 0}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &350804119
@@ -672,10 +672,10 @@ CompositeCollider2D:
   m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
-    - - {x: -1.0000334, y: -0.00001}
-      - {x: -1.0000334, y: 1.00001}
-      - {x: -1.99999, y: 0.9999748}
-      - {x: -1.9999666, y: -0.00001}
+    - - {x: -1.0000293, y: 0}
+      - {x: -1.0000293, y: 1}
+      - {x: -2, y: 0.99997073}
+      - {x: -1.9999708, y: 0}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &467439556
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementKeys: 14010000130100001101000012010000
   entityType: 0
-  flashlightTrigger: 101
+  flashlightTrigger: 303
 --- !u!1 &1406344849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementKeys: 61000000640000007700000073000000
   entityType: 1
-  flashlightTrigger: 113
+  flashlightTrigger: 304
 --- !u!1 &1579269744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,10 +1216,8 @@ MonoBehaviour:
   tilemapCanvas: {fileID: 2035957514}
   entityDetectCenterA: {fileID: 697816823}
   entityDetectCenterB: {fileID: 1590878593}
-  lightShapeA: {fileID: 0}
-  lightShapeB: {fileID: 0}
-  shapeB:
-  - {x: 0, y: 0}
+  lightShapeA: {fileID: 11400000, guid: 929c7c6d4c9ff58498c4c73807b34905, type: 2}
+  lightShapeB: {fileID: 11400000, guid: 35ff4ce6e68ddee42902c67e9ef4a049, type: 2}
 --- !u!4 &1579269746
 Transform:
   m_ObjectHideFlags: 0

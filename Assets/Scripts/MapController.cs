@@ -18,7 +18,7 @@ namespace ns
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (!isCurrentTileMapA)
                     TilemapSwapper.Instance.SwapTilemap(TilemapSwapper.Entity.A);
