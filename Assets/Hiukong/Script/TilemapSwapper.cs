@@ -120,7 +120,10 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     // storing flashlight's shape offsets in 4 directions
     private List<Vector2Int[]> shapeAList = new List<Vector2Int[]>();
     private List<Vector2Int[]> shapeBList = new List<Vector2Int[]>();
-    private HashSet<Vector2Int> permanentCellList = new HashSet<Vector2Int>();
+
+    // storing tiles changed by A/B
+    private HashSet<Vector2Int> tileChangeListA = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> tileChangeListB = new HashSet<Vector2Int>();
 
     #endregion
 
@@ -134,7 +137,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     public void InitializeTilemap()
     {
         compileShapeOffsets();
-        permanentCellList.Clear();
+        clearChangedTile();
         initializeTilemapCanvas();
     }
 
@@ -145,7 +148,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// </summary>
     /// <param name="entity">Specify which entity's world to swap</param>
     /// <param name="direction">And in which direction</param>
-    public bool ChangeTilemap(Entity entity, Direction direction)
+    /// <param name="isOn">Is the flashlight on?</param>
+    public bool ChangeTilemap(Entity entity, Direction direction, bool isOn = true)
     {
         Transform ent;
         Tilemap tilemapChangeTo;
@@ -166,9 +170,40 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             return false;
 
         Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
-        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets);
+        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
 
         return true;   
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="entity">Specify which entity's world to swap</param>
+    /// <param name="offset">The tile's offset from detectCenter cell</param>
+    /// <param name="isOn">Is the flashlight on?</param>
+    /// <returns></returns>
+    public bool ChangeTilemap(Entity entity, Vector2Int offset, bool isOn = true)
+    {
+        Transform ent;
+        Tilemap tilemapChangeTo;
+        Vector2Int[] shapeOffsets = { offset };
+        if (entity == Entity.A)
+        {
+            ent = entityDetectCenterA;
+            tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+        }
+        else if (entity == Entity.B)
+        {
+            ent = entityDetectCenterB;
+            tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+        }
+        else
+            return false;
+
+        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
+        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
+
+        return true;
     }
 
 
@@ -179,15 +214,15 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// <param name="entity">The detect center transform of the entity</param>
     /// <param name="direction">And in which direction</param>
     /// <returns></returns>
-    public bool ChangeTilemap(Transform detectCenter, Direction direction)
+    public bool ChangeTilemap(Transform detectCenter, Direction direction, bool isOn = true)
     {
         if (detectCenter == entityDetectCenterA)
         {
-            return ChangeTilemap(Entity.A, direction);
+            return ChangeTilemap(Entity.A, direction, isOn);
         }
         else if (detectCenter == entityDetectCenterB)
         {
-            return ChangeTilemap(Entity.B, direction);
+            return ChangeTilemap(Entity.B, direction, isOn);
         }
         else
             return false;
@@ -201,38 +236,39 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// <param name="entity">The entity whose world should this method change to.</param>
     public void SwapTilemap(Entity entity)
     {
-        Tilemap tilemapSwapTo;
-        if(entity == Entity.A)
-        {
-            tilemapSwapTo = swappingTilemapA;
-        }
-        else if(entity == Entity.B)
-        {
-            tilemapSwapTo = swappingTilemapB;
-        }
-        else
-        {
-            return;
-        }
-
         BoundsInt bounds = initialTilemap.cellBounds;
-        Vector3Int vec = new Vector3Int();
+        Vector3Int vec3 = new Vector3Int();
+        Vector2Int vec2 = new Vector2Int();
+
+        Tilemap swappedTo = entity == Entity.A ? swappingTilemapA : swappingTilemapB;
+        HashSet<Vector2Int> tilesChangedCurrent = entity == Entity.A ? tileChangeListA : tileChangeListB;
+        HashSet<Vector2Int> tilesChangedOther = entity == Entity.A ? tileChangeListB : tileChangeListA;
+        Tilemap tilemapChangedCurrent = entity == Entity.A ? changingTilemapA : changingTilemapB;
+        Tilemap tilemapChangedOther = entity == Entity.A ? swappingTilemapB : swappingTilemapA;
+
         for (int i = bounds.xMin; i < bounds.xMax; i++)
         {
             for (int j = bounds.yMin; j < bounds.yMax; j++)
             {
-                vec.Set(i, j, 0);
-                if (!permanentCellList.Contains(new Vector2Int(i, j)))
+                vec3.Set(i, j, 0);
+                vec2.Set(i, j);
+                if (tilesChangedCurrent.Contains(vec2))
                 {
-                    tilemapCanvas.SetTile(vec, tilemapSwapTo.GetTile(vec));
-                    refreshCollider();
+                    tilemapCanvas.SetTile(vec3, tilemapChangedCurrent.GetTile(vec3));
                 }
-                
+                else if (tilesChangedOther.Contains(vec2))
+                {
+                    tilemapCanvas.SetTile(vec3, tilemapChangedOther.GetTile(vec3));
+                }
+                else
+                {
+                    tilemapCanvas.SetTile(vec3, swappedTo.GetTile(vec3));
+                }
             }
         }
+
+        refreshCollider();
     }
-
-
 
     #endregion
 
@@ -272,30 +308,101 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             shapeBList.Add(mat.LeftMul(lightShapeB.shapeOffset));
         }
     }
-    private void changeTilemap(Tilemap tilemapChangeTo, Vector2Int entityCell, Vector2Int[] shapeOffsets)
+
+
+    private void changeTilemap(Tilemap tilemapChangeTo, Vector2Int entityCell, Vector2Int[] shapeOffsets, Entity entity, bool isChange)
     {
         foreach (Vector2Int offset in shapeOffsets)
         {
             Vector2Int cell = new Vector2Int(entityCell.x + offset.x, entityCell.y + offset.y);
-            if (permanentCellList.Contains(cell))
-            {
-                continue;
-            }
-            else
-            {
-                permanentCellList.Add(cell);
-                Vector3Int vec = new Vector3Int(cell.x, cell.y, 0);
-                tilemapCanvas.SetTile(vec, tilemapChangeTo.GetTile(vec));
-                tilemapCanvas.SetColliderType(vec, tilemapChangeTo.GetColliderType(vec));
-            }
+            Vector3Int vec = new Vector3Int(cell.x, cell.y, 0);
+            tilemapCanvas.SetTile(vec, tilemapChangeTo.GetTile(vec));
+            changeOrRestoreTile(entity, cell, isChange);
         }
         refreshCollider();
     }
+
 
     private void refreshCollider()
     {
         tilemapCanvas.GetComponent<TilemapCollider2D>().enabled = false;
         tilemapCanvas.GetComponent<TilemapCollider2D>().enabled = true;
+    }
+
+
+    private void clearChangedTile()
+    {
+        this.tileChangeListA.Clear();
+        this.tileChangeListB.Clear();
+    }
+
+
+    private bool changeOrRestoreTile(Entity entity, Vector2Int tile, bool isChange)
+    {
+        if (isChange)
+        {
+            return addChangedTile(entity, tile);
+        }
+        else
+        {
+            return restoreChangedTile(entity, tile);
+        }
+    }
+
+
+    /// <summary>
+    /// Add changed tiles to record.
+    /// </summary>
+    /// <returns>true if the list doestn't contain the tile, false if contains</returns>
+    private bool addChangedTile(Entity entity, Vector2Int tile)
+    {
+        if(entity == Entity.A)
+        {
+            if (this.tileChangeListA.Contains(tile))
+            {
+                return false;
+            }
+            this.tileChangeListA.Add(tile);
+            return true;
+        }
+        else if(entity == Entity.B)
+        {
+            if (this.tileChangeListB.Contains(tile))
+            {
+                return false;
+            }
+            this.tileChangeListB.Add(tile);
+            return true;
+        }
+        return false;
+    }
+
+
+    /// <summary>
+    /// Delete changed tile from record.
+    /// </summary>
+    /// <returns>true if the list contains the tile, false if doesn't contains</returns>
+    private bool restoreChangedTile(Entity entity, Vector2Int tile)
+    {
+        if (entity == Entity.A)
+        {
+            if (this.tileChangeListA.Contains(tile))
+            {
+                this.tileChangeListA.Remove(tile);
+                return true;
+            }
+            return false;
+        }
+        else if(entity == Entity.B)
+        {
+            if (this.tileChangeListB.Contains(tile))
+            {
+                this.tileChangeListB.Remove(tile);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
 

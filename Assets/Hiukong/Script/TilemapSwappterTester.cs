@@ -10,6 +10,8 @@ public class TilemapSwappterTester : MonoBehaviour
 
     Dictionary<KeyCode, TilemapSwapper.Direction> map;
 
+    bool isFlashlightOn = true;
+
     void OnEnable()
     {
         map = new Dictionary<KeyCode, TilemapSwapper.Direction>();
@@ -24,11 +26,21 @@ public class TilemapSwappterTester : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isFlashlightOn = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            isFlashlightOn = false;
+        }
+
+
         foreach (KeyValuePair<KeyCode, TilemapSwapper.Direction> pair in map)
         {
             if (Input.GetKeyDown(pair.Key))
             {
-                GetComponent<TilemapSwapper>().ChangeTilemap(TilemapSwapper.Entity.A, pair.Value);
+                GetComponent<TilemapSwapper>().ChangeTilemap(TilemapSwapper.Entity.A, pair.Value, isFlashlightOn);
             }
         }
 

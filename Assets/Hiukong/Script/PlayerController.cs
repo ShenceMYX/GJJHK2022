@@ -21,23 +21,8 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(movementKey))
             {
                 prevPressedMovementKey = (int)movementKey;
-                //Debug.Log(movementKey.ToString() + " is pressed");
             }
         }
-
-        /*
-        foreach (KeyCode movementKey in movementKeys)
-        { 
-            if (Input.GetKeyUp(movementKey) && prevPressedMovementKey == (int)movementKey)
-            {
-                prevPressedMovementKey = -1;
-            }
-        }
-        if (!Input.GetKey((KeyCode)prevPressedMovementKey))
-        {
-            prevPressedMovementKey = -1;
-        }
-        */
 
         RaycastHit2D ray;
         Vector2 pos = new Vector2(transform.position.x, transform.position.y);
