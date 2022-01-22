@@ -9,6 +9,24 @@ namespace ns
 	/// </summary>
 	public class MapController : MonoBehaviour
 	{
-        
+        private bool isCurrentTileMapA = false;
+
+        private void OnEnable()
+        {
+            TilemapSwapper.Instance.InitializeTilemap();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (!isCurrentTileMapA)
+                    TilemapSwapper.Instance.SwapTilemap(TilemapSwapper.Entity.A);
+                else
+                    TilemapSwapper.Instance.SwapTilemap(TilemapSwapper.Entity.B);
+                isCurrentTileMapA = !isCurrentTileMapA;
+            }
+
+        }
     }
 }

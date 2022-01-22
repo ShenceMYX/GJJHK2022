@@ -11,6 +11,13 @@ namespace ns
 	{
 		private CharacterMotor motor;
 
+        public KeyCode[] movementKeys = new KeyCode[4] { KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.S };
+
+        public TilemapSwapper.Entity entityType = TilemapSwapper.Entity.B;
+
+        private bool isFlashlightOpened = false;
+        public KeyCode flashlightTrigger = KeyCode.Q;
+
         private void Start()
         {
 			motor = GetComponent<CharacterMotor>();
@@ -24,12 +31,47 @@ namespace ns
 
         private void MovementControlDetection()
         {
+            // Update Movement Key
+            for (int i = 0; i < movementKeys.Length; i++)
+            {
+                if (Input.GetKeyDown(movementKeys[i]))
+                {
+                    switch (i)
+                    {
+                        //(int)KeyCode.A
+                        case 0:
+                            motor.Movement(new Vector2(-1, 0));
+                            if(isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.LEFT);
+                            break;
+                        //(int)KeyCode.D
+                        case 1:
+                            motor.Movement(new Vector2(1, 0));
+                            if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.RIGHT);
+                            break;
+                        //(int)KeyCode.W
+                        case 2:
+                            motor.Movement(new Vector2(0, 1));
+                            if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.UP);
+                            break;
+                        //(int)KeyCode.S
+                        case 3:
+                            motor.Movement(new Vector2(0, -1));
+                            if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.DOWN);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+               
+            }
 
+            
         }
 
         private void FlashlightControlDetection()
         {
-
+            if (Input.GetKeyDown(flashlightTrigger))
+                isFlashlightOpened = !isFlashlightOpened;
         }
     }
 }

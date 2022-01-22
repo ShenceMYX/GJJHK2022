@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Common;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-public class TilemapSwapper : MonoBehaviour
+public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 {
 
     #region Type_Decalration
