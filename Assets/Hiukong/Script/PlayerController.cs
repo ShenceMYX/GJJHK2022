@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = pos;
 
+
     }
 
     void OnDrawGizmos()

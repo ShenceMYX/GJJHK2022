@@ -112,37 +112,10 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     [Tooltip("Light shape offsets data object.\nUsing MouseRightClick/Create/GGJGameData/LightShape to create one")]
     private LightShape lightShapeA;
 
-    //private Vector2Int[] shapeA =
-    //{
-    //    new Vector2Int(-1,1),
-    //    new Vector2Int(-1,2),
-    //    new Vector2Int(0,1),
-    //    new Vector2Int(0,2),
-    //    new Vector2Int(1,1),
-    //    new Vector2Int(1,2),
-    //};
-    private Vector2Int[] shapeA =
-    {
-        new Vector2Int(0, 0)
-    };
-
     [SerializeField]
     [Tooltip("Light shape offsets data object.\nUsing MouseRightClick/Create/GGJGameData/LightShape to create one")]
     private LightShape lightShapeB;
 
-    //public Vector2Int[] shapeB =
-    //{
-    //    new Vector2Int(-1,1),
-    //    new Vector2Int(-1,2),
-    //    new Vector2Int(0,1),
-    //    new Vector2Int(0,2),
-    //    new Vector2Int(1,1),
-    //    new Vector2Int(1,2),
-    //};
-    public Vector2Int[] shapeB =
-    {
-        new Vector2Int(0, 0)
-    };
 
     // storing flashlight's shape offsets in 4 directions
     private List<Vector2Int[]> shapeAList = new List<Vector2Int[]>();
@@ -192,9 +165,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         else 
             return false;
 
-        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
-        //Debug.Log("Current Cell: " + entityCell.ToString());
-        //Debug.Log("Current position: " + ent.transform.position);
+        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);\
         changeTilemap(tilemapChangeTo, entityCell, shapeOffsets);
 
         return true;   
@@ -290,30 +261,17 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private void compileShapeOffsets()
     {
         shapeAList.Clear();
-        shapeAList.Add(shapeA);
+        shapeAList.Add(lightShapeA.shapeOffset);
         foreach (Matrix2x2 mat in shapeOffsetChangeList)
         {
-            shapeAList.Add(mat.LeftMul(shapeA));
+            shapeAList.Add(mat.LeftMul(lightShapeA.shapeOffset));
         }
         shapeBList.Clear();
-        shapeBList.Add(shapeB);
+        shapeBList.Add(lightShapeB.shapeOffset);
         foreach (Matrix2x2 mat in shapeOffsetChangeList)
         {
-            shapeBList.Add(mat.LeftMul(shapeB));
+            shapeBList.Add(mat.LeftMul(lightShapeB.shapeOffset));
         }
-
-        /*
-        Debug.Log("Shape A Offset");
-        int i = 0;
-        foreach (Vector2Int[] offset in shapeAList)
-        {
-            Debug.Log("Offset for " + (Direction)(i++));
-            foreach(Vector2Int vec in offset)
-            {
-                Debug.Log(vec);
-            }
-        }
-        */
     }
     private void changeTilemap(Tilemap tilemapChangeTo, Vector2Int entityCell, Vector2Int[] shapeOffsets)
     {
