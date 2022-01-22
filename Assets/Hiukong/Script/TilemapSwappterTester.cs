@@ -10,7 +10,7 @@ public class TilemapSwappterTester : MonoBehaviour
 
     Dictionary<KeyCode, TilemapSwapper.Direction> map;
 
-    bool isFlashlightOn = true;
+    bool isFlashlightOn = false;
 
     void OnEnable()
     {

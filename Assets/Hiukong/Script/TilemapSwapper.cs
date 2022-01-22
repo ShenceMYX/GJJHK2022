@@ -131,6 +131,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     #region API
 
     /// <summary>
+    /// *** Important ***
     /// Change Tilemap to its original state.
     /// Invoke this method in level start or level restart.
     /// </summary>
@@ -146,7 +147,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// Swap tilemap to specified world's tilemap. 
     /// Invoke this method when using "flashlight".
     /// </summary>
-    /// <param name="entity">Specify which entity's world to swap</param>
+    /// <param name="entity">Specify which entity's world to change</param>
     /// <param name="direction">And in which direction</param>
     /// <param name="isOn">Is the flashlight on?</param>
     public bool ChangeTilemap(Entity entity, Direction direction, bool isOn = true)
@@ -157,13 +158,13 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         if (entity == Entity.A)
         {
             ent = entityDetectCenterA;
-            tilemapChangeTo = changingTilemapA;
+            tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
             shapeOffsets = shapeAList[(int)direction];
         }
         else if (entity == Entity.B)
         {
             ent = entityDetectCenterB;
-            tilemapChangeTo = changingTilemapB;
+            tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
             shapeOffsets = shapeBList[(int)direction];
         }
         else 
@@ -178,7 +179,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="entity">Specify which entity's world to swap</param>
+    /// <param name="entity">Specify which entity's world to change</param>
     /// <param name="offset">The tile's offset from detectCenter cell</param>
     /// <param name="isOn">Is the flashlight on?</param>
     /// <returns></returns>
@@ -204,6 +205,24 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
 
         return true;
+    }
+
+    /// <summary>
+    /// Restore tile to its previous state.
+    /// </summary>
+    /// <returns>Return True if surccessfully restored.</returns>
+    public bool RestoreTilemap(Entity entity, Direction direction)
+    {
+        return ChangeTilemap(entity, direction, false);
+    }
+
+    /// <summary>
+    /// Restore tile to its previous state.
+    /// </summary>
+    /// <returns>Return True if surccessfully restored.</returns>
+    public bool RestoreTilemap(Entity entity, Vector2Int offset)
+    {
+        return ChangeTilemap(entity, offset, false);
     }
 
 
