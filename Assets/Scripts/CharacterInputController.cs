@@ -17,7 +17,7 @@ namespace ns
         public TilemapSwapper.Direction facingDirection;
 
         private bool isFlashlightOpened = false;
-        public KeyCode flashlightTrigger = KeyCode.LeftShift;
+        public KeyCode flashlightKey = KeyCode.LeftShift;
 
         private void Start()
         {
@@ -37,6 +37,7 @@ namespace ns
             {
                 if (Input.GetKeyDown(movementKeys[i]))
                 {
+                    TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
                     switch (i)
                     {
                         //(int)KeyCode.A
@@ -75,11 +76,13 @@ namespace ns
 
         private void FlashlightControlDetection()
         {
-            if (Input.GetKeyDown(flashlightTrigger))
+            if (Input.GetKeyDown(flashlightKey))
             {
                 isFlashlightOpened = !isFlashlightOpened;
-                if(isFlashlightOpened)
+                if (isFlashlightOpened)
                     TilemapSwapper.Instance.ChangeTilemap(entityType, facingDirection);
+                else
+                    TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
             }
         }
     }
