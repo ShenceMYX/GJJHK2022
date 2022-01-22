@@ -978,7 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementKeys: 14010000130100001101000012010000
-  entityType: 1
+  entityType: 0
   flashlightTrigger: 101
 --- !u!1 &1406344849
 GameObject:
@@ -1176,7 +1176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementKeys: 61000000640000007700000073000000
-  entityType: 0
+  entityType: 1
   flashlightTrigger: 113
 --- !u!1 &1579269744
 GameObject:
@@ -1214,17 +1214,12 @@ MonoBehaviour:
   swappingTilemapA: {fileID: 467439554}
   swappingTilemapB: {fileID: 350804117}
   tilemapCanvas: {fileID: 2035957514}
-  entityDetectCenterA: {fileID: 1590878593}
-  entityDetectCenterB: {fileID: 697816823}
+  entityDetectCenterA: {fileID: 697816823}
+  entityDetectCenterB: {fileID: 1590878593}
   lightShapeA: {fileID: 0}
   lightShapeB: {fileID: 0}
   shapeB:
-  - {x: -1, y: 1}
-  - {x: -1, y: 2}
-  - {x: 0, y: 1}
-  - {x: 0, y: 2}
-  - {x: 1, y: 1}
-  - {x: 1, y: 2}
+  - {x: 0, y: 0}
 --- !u!4 &1579269746
 Transform:
   m_ObjectHideFlags: 0

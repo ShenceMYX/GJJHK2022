@@ -71,7 +71,11 @@ namespace ns
         private void FlashlightControlDetection()
         {
             if (Input.GetKeyDown(flashlightTrigger))
+            {
                 isFlashlightOpened = !isFlashlightOpened;
+                if(isFlashlightOpened)
+                    TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.DOWN);
+            }
         }
     }
 }

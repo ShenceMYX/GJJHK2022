@@ -112,28 +112,36 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     [Tooltip("Light shape offsets data object.\nUsing MouseRightClick/Create/GGJGameData/LightShape to create one")]
     private LightShape lightShapeA;
 
+    //private Vector2Int[] shapeA =
+    //{
+    //    new Vector2Int(-1,1),
+    //    new Vector2Int(-1,2),
+    //    new Vector2Int(0,1),
+    //    new Vector2Int(0,2),
+    //    new Vector2Int(1,1),
+    //    new Vector2Int(1,2),
+    //};
     private Vector2Int[] shapeA =
     {
-        new Vector2Int(-1,1),
-        new Vector2Int(-1,2),
-        new Vector2Int(0,1),
-        new Vector2Int(0,2),
-        new Vector2Int(1,1),
-        new Vector2Int(1,2),
+        new Vector2Int(0, 0)
     };
 
     [SerializeField]
     [Tooltip("Light shape offsets data object.\nUsing MouseRightClick/Create/GGJGameData/LightShape to create one")]
     private LightShape lightShapeB;
 
+    //public Vector2Int[] shapeB =
+    //{
+    //    new Vector2Int(-1,1),
+    //    new Vector2Int(-1,2),
+    //    new Vector2Int(0,1),
+    //    new Vector2Int(0,2),
+    //    new Vector2Int(1,1),
+    //    new Vector2Int(1,2),
+    //};
     public Vector2Int[] shapeB =
     {
-        new Vector2Int(-1,1),
-        new Vector2Int(-1,2),
-        new Vector2Int(0,1),
-        new Vector2Int(0,2),
-        new Vector2Int(1,1),
-        new Vector2Int(1,2),
+        new Vector2Int(0, 0)
     };
 
     // storing flashlight's shape offsets in 4 directions
