@@ -37,30 +37,38 @@ namespace ns
             {
                 if (Input.GetKeyDown(movementKeys[i]))
                 {
-                    TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
+                    if (isFlashlightOpened)
+                    {
+                        TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
+                        isFlashlightOpened = false;
+                    }
                     switch (i)
                     {
                         //(int)KeyCode.A
                         case 0:
-                            motor.Movement(new Vector2(-1, 0));
+                            if(facingDirection == TilemapSwapper.Direction.LEFT)
+                                motor.Movement(new Vector2(-1, 0));
                             facingDirection = TilemapSwapper.Direction.LEFT;
                             //if(isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.LEFT);
                             break;
                         //(int)KeyCode.D
                         case 1:
-                            motor.Movement(new Vector2(1, 0));
+                            if (facingDirection == TilemapSwapper.Direction.RIGHT)
+                                motor.Movement(new Vector2(1, 0));
                             facingDirection = TilemapSwapper.Direction.RIGHT;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.RIGHT);
                             break;
                         //(int)KeyCode.W
                         case 2:
-                            motor.Movement(new Vector2(0, 1));
+                            if (facingDirection == TilemapSwapper.Direction.UP)
+                                motor.Movement(new Vector2(0, 1));
                             facingDirection = TilemapSwapper.Direction.UP;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.UP);
                             break;
                         //(int)KeyCode.S
                         case 3:
-                            motor.Movement(new Vector2(0, -1));
+                            if (facingDirection == TilemapSwapper.Direction.DOWN)
+                                motor.Movement(new Vector2(0, -1));
                             facingDirection = TilemapSwapper.Direction.DOWN;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.DOWN);
                             break;
