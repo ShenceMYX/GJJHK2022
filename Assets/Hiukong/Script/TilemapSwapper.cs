@@ -165,7 +165,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         else 
             return false;
 
-        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);\
+        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
         changeTilemap(tilemapChangeTo, entityCell, shapeOffsets);
 
         return true;   
@@ -193,9 +193,6 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             return false;
     }
 
-
-
-    
 
     /// <summary>
     /// Change tilemap to specified entity's own world.
@@ -228,6 +225,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 if (!permanentCellList.Contains(new Vector2Int(i, j)))
                 {
                     tilemapCanvas.SetTile(vec, tilemapSwapTo.GetTile(vec));
+                    refreshCollider();
                 }
                 
             }
@@ -255,6 +253,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 tilemapCanvas.SetTile(vec, initialTilemap.GetTile(vec));
             }
         }
+        refreshCollider();
     }
 
 
@@ -285,11 +284,21 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             else
             {
                 permanentCellList.Add(cell);
-                tilemapCanvas.SetTile(new Vector3Int(cell.x, cell.y, 0),
-                        tilemapChangeTo.GetTile(new Vector3Int(cell.x, cell.y, 0)));
+                Vector3Int vec = new Vector3Int(cell.x, cell.y, 0);
+                tilemapCanvas.SetTile(vec, tilemapChangeTo.GetTile(vec));
+                tilemapCanvas.SetColliderType(vec, tilemapChangeTo.GetColliderType(vec));
             }
         }
+        refreshCollider();
     }
+
+    private void refreshCollider()
+    {
+        tilemapCanvas.GetComponent<TilemapCollider2D>().enabled = false;
+        tilemapCanvas.GetComponent<TilemapCollider2D>().enabled = true;
+    }
+
+
     #endregion
 
 }
