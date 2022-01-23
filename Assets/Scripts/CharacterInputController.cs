@@ -10,6 +10,7 @@ namespace ns
 	public class CharacterInputController : MonoBehaviour
 	{
 		private CharacterMotor motor;
+        private Animator anim;
 
         public KeyCode[] movementKeys = new KeyCode[4] { KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.S };
 
@@ -19,10 +20,17 @@ namespace ns
         private bool isFlashlightOpened = false;
         public KeyCode flashlightKey = KeyCode.LeftShift;
 
-        private void Start()
+        private void Awake()
         {
-			motor = GetComponent<CharacterMotor>();
+            motor = GetComponent<CharacterMotor>();
+            anim = GetComponentInChildren<Animator>();
         }
+
+        private void OnEnable()
+        {
+            SetAnimationState();
+        }
+
 
         private void Update()
         {
@@ -75,8 +83,11 @@ namespace ns
                         default:
                             break;
                     }
+
+                    SetAnimationState();
+
                 }
-               
+
             }
 
             
@@ -93,5 +104,31 @@ namespace ns
                     TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
             }
         }
+
+        private void SetAnimationState()
+        {
+            switch (facingDirection)
+            {
+                case TilemapSwapper.Direction.LEFT:
+                    anim.SetFloat("Vertical", 0);
+                    anim.SetFloat("Horizontal", -1);
+                    break;
+                case TilemapSwapper.Direction.RIGHT:
+                    anim.SetFloat("Vertical", 0);
+                    anim.SetFloat("Horizontal", 1);
+                    break;
+                case TilemapSwapper.Direction.UP:
+                    anim.SetFloat("Horizontal", 0);
+                    anim.SetFloat("Vertical", -1);
+                    break;
+                case TilemapSwapper.Direction.DOWN:
+                    anim.SetFloat("Horizontal", 0);
+                    anim.SetFloat("Vertical", 1);
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }
