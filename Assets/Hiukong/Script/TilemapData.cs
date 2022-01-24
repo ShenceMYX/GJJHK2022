@@ -36,6 +36,14 @@ public class TilemapData : MonoBehaviour
     [Tooltip("Next level's scene name, for corresponding elevator, for B (temporary gameplay)")]
     private List<string> elevatorDestinationSceneListB;
 
+    [SerializeField]
+    [Tooltip("Interactable Tile, for entity A")]
+    private List<Vector2Int> interactableListA;
+
+    [SerializeField]
+    [Tooltip("Interactable Tile, for entity B")]
+    private List<Vector2Int> interactableListB;
+
 
     /// <summary>
     /// Determine if current position contains a portal.
@@ -109,7 +117,7 @@ public class TilemapData : MonoBehaviour
     /// Invoke IsElevatorLocation before invoking this method.
     /// </summary>
     /// <returns>Return next scene's name this elevetor location leads to.</returns>
-    public string GetNextLevelScene(TilemapSwapper.Entity entity, Vector2Int pos)
+    public string GetElevatorDestinationScene(TilemapSwapper.Entity entity, Vector2Int pos)
     {
         if (entity == TilemapSwapper.Entity.A)
         {
@@ -119,6 +127,24 @@ public class TilemapData : MonoBehaviour
         {
             return elevatorDestinationSceneListB[elevatorListB.IndexOf(pos)];
         }
+    }
+
+
+    /// <summary>
+    /// Determine if current tile is an interactable location.
+    /// </summary>
+    /// <returns>True if is interactable location</returns>
+    public bool IsInteractableLocation(TilemapSwapper.Entity entity, Vector2Int pos)
+    {
+        if(entity == TilemapSwapper.Entity.A)
+        {
+            return interactableListA.Contains(pos);
+        }
+        else if(entity == TilemapSwapper.Entity.B)
+        {
+            return interactableListB.Contains(pos);
+        }
+        return false;
     }
 
 }
