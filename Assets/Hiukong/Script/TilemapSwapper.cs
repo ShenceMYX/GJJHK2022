@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 
 public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 {
-
     #region Type_Decalration
     public enum Direction
     {
@@ -65,7 +64,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
 
     #region Useful_Tools
-    static Matrix2x2 shapeOffsetUpToRight = new Matrix2x2(new Vector2Int(0,-1), new Vector2Int(1,0));
+    static Matrix2x2 shapeOffsetUpToRight = new Matrix2x2(new Vector2Int(0, -1), new Vector2Int(1, 0));
     static Matrix2x2 shapeOffsetUpToDown = new Matrix2x2(new Vector2Int(1, 0), new Vector2Int(0, -1));
     static Matrix2x2 shapeOffsetUpToLeft = new Matrix2x2(new Vector2Int(0, 1), new Vector2Int(-1, 0));
     static Matrix2x2[] shapeOffsetChangeList = { shapeOffsetUpToRight, shapeOffsetUpToDown, shapeOffsetUpToLeft };
@@ -79,27 +78,29 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private Grid grid;
 
     [SerializeField]
-    [Tooltip("Drop in the initial tilemap")]
-    private Tilemap initialTilemap;
+    [Tooltip("Node name for initialTilemap")]
+    private string initialTilemapNodeName = "Tilemap Red Changing";
 
     [SerializeField]
-    [Tooltip("Drop in the tilemap to change permanently, for this entity")]
-    private Tilemap changingTilemapA;
+    [Tooltip("Node name for changingTilemapA")]
+    private string changingTilemapANodeName = "Tilemap Blue Changing";
 
     [SerializeField]
-    [Tooltip("Drop in the tilemap to change permanently, for this entity")]
-    private Tilemap changingTilemapB;
+    [Tooltip("Node name for changingTilemapB")]
+    private string changingTilemapBNodename = "Tilemap Red Changing";
 
     [SerializeField]
-    [Tooltip("Drop in the tilemap to swap, for this entity")]
-    private Tilemap swappingTilemapA;
+    [Tooltip("Node name for swappingTilemapA")]
+    private string swappingTilemapANodeName = "Tilemap Blue Swapping";
 
     [SerializeField]
-    [Tooltip("Drop in the tilemap to swap, for this entity")]
-    private Tilemap swappingTilemapB;
+    [Tooltip("Node name for swappingTilemapB")]
+    private string swappingTilemapBNodeName = "Tilemap Red Swapping";
 
-    [Tooltip("The tilemap to draw all the tiles (a canvas tilemap)")]
-    public Tilemap tilemapCanvas;
+    [SerializeField]
+    [Tooltip("Node name for tilemapCanvas")]
+    private string tilemapCanvasNodeName = "Tilemap Canvas";
+
 
     [Header("Entitys")]
     [SerializeField]
@@ -117,6 +118,14 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private LightShape lightShapeB;
 
 
+    // storing current room's tilemaps
+    private Tilemap initialTilemap;
+    private Tilemap changingTilemapA;
+    private Tilemap changingTilemapB;
+    private Tilemap swappingTilemapA;
+    private Tilemap swappingTilemapB;
+    private Tilemap tilemapCanvas;
+
     // storing flashlight's shape offsets in 4 directions
     private List<Vector2Int[]> shapeAList = new List<Vector2Int[]>();
     private List<Vector2Int[]> shapeBList = new List<Vector2Int[]>();
@@ -129,6 +138,20 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
 
     #region API
+
+    /// <summary>
+    /// Select the grid which contains all the current room's tilemaps
+    /// </summary>
+    /// <param name="grid">The grid of current room</param>
+    public void SelectTilemaps(Grid grid)
+    {
+        selectTilemaps(grid.transform.Find(initialTilemapNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(swappingTilemapANodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(swappingTilemapBNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(changingTilemapANodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(changingTilemapBNodename).GetComponent<Tilemap>(),
+            grid.transform.Find(tilemapCanvasNodeName).GetComponent<Tilemap>());
+    }
 
     /// <summary>
     /// *** Important ***
@@ -289,13 +312,34 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         refreshCollider();
     }
 
+
+
+
+
+    /// <summary>
+    /// Select a new lightShape for entity.
+    /// </summary>
+    /// <returns>The lightShaped been used</returns>
+    public LightShape SelectLightshape(Entity entity, LightShape lightShape)
+    {
+        LightShape old = entity == Entity.A ? lightShapeA : lightShapeB;
+        if(entity == Entity.A)
+        {
+            lightShapeA = lightShape;
+        }
+        else
+        {
+            lightShapeB = lightShape;
+        }
+        compileShapeOffsets();
+        return old;
+    }
+
     #endregion
 
 
 
     #region Private_Method
-
-
     private void initializeTilemapCanvas()
     {
         BoundsInt bounds = initialTilemap.cellBounds;
@@ -422,6 +466,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             return false;
         }
         return false;
+    }
+
+    public void selectTilemaps(Tilemap initial, Tilemap swappingA, Tilemap swappingB, Tilemap changingA, Tilemap changingB, Tilemap canvas)
+    {
+        initialTilemap = initial;
+        swappingTilemapA = swappingA;
+        swappingTilemapB = swappingB;
+        changingTilemapA = changingA;
+        changingTilemapB = changingB;
+        tilemapCanvas = canvas;
     }
 
 

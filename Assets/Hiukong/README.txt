@@ -44,6 +44,12 @@ Swap world to which belong to the argument Enum Entity type equals to.
 
 
 
+SelectLightShape(Entity entity, LightShape lightShape)
+
+Select a new lightShape for entity, returns the old one.
+
+
+
 
 [Script/LightShape]
 A scriptable object, used for creating customed light shape.
