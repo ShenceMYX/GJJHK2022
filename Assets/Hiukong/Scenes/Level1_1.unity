@@ -7317,13 +7317,12 @@ MonoBehaviour:
   IsDrawCurrentCellPos: 0
   IsDrawCellCoordinates: 0
   grid: {fileID: 2090380539}
-  changingTilemapANodeName: Tilemap Blue Changing
-  changingTilemapBNodename: Tilemap Red Changing
-  swappingTilemapANodeName: Tilemap Blue Swapping
-  swappingTilemapBNodeName: Tilemap Red Swapping
-  changingTilemapAShownInBNodeName: Tilemap Blue Changing Shown in Red
-  changingTilemapBShownInANodeName: Tilemap Red Changing Shown in Blue
-  tilemapCanvasNodeName: Tilemap Canvas
+  changingA: changing A
+  changingB: changing B
+  swappingA: swapping A
+  swappingB: swapping B
+  changingAShownInB: changing A Shown in B
+  changingBShownInA: changing B Shown in A
   entityDetectCenterA: {fileID: 697816823}
   entityDetectCenterB: {fileID: 1590878593}
   lightShapeA: {fileID: 11400000, guid: 929c7c6d4c9ff58498c4c73807b34905, type: 2}
@@ -10618,7 +10617,7 @@ Camera:
   m_GameObject: {fileID: 2103413278}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
