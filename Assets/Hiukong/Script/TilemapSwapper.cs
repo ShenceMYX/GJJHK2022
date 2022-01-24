@@ -98,28 +98,56 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private string changingTilemapANodeName = "Tilemap Blue Changing";
 
     [SerializeField]
+    [Tooltip("Node name for changingTilemap2TileHighA")]
+    private string changingTilemap2TileHighANodeName = "Tilemap Blue Changing 2 Tile Hight";
+
+    [SerializeField]
     [Tooltip("Node name for changingTilemapB")]
     private string changingTilemapBNodename = "Tilemap Red Changing";
+
+    [SerializeField]
+    [Tooltip("Node name for changingTilemap2TileHighB")]
+    private string changingTilemap2TileHighBNodeName = "Tilemap Red Changing 2 Tile High";
 
     [SerializeField]
     [Tooltip("Node name for swappingTilemapA")]
     private string swappingTilemapANodeName = "Tilemap Blue Swapping";
 
     [SerializeField]
+    [Tooltip("Node name for swappingTilemap2TileHighA")]
+    private string swappingTilemap2TileHighANodeName = "Tilemap Blue Swapping 2 Tile High";
+
+    [SerializeField]
     [Tooltip("Node name for swappingTilemapB")]
     private string swappingTilemapBNodeName = "Tilemap Red Swapping";
+
+    [SerializeField]
+    [Tooltip("Node name for swappingTilemap2TileHighB")]
+    private string swappingTilemap2TileHighBNodeName = "Tilemap Red Swapping 2 Tile High";
 
     [SerializeField]
     [Tooltip("Node name for changedOppositeTilemapA")]
     private string changingTilemapAShownInBNodeName = "Tilemap Blue Changing Shown in Red";
 
     [SerializeField]
+    [Tooltip("Node name for changingTilemapAShownInB2TileHigh")]
+    private string changingTilemapAShownInB2TileHighNodeName = "Tilemap Blue Changing Shown in Red 2 Tile High";
+
+    [SerializeField]
     [Tooltip("Node name for changedOppositeTilemapB")]
     private string changingTilemapBShownInANodeName = "Tilemap Red Changing Shown in Blue";
 
     [SerializeField]
+    [Tooltip("Node name for changingTilemapBShownInA2TileHigh")]
+    private string changingTilemapBShownInA2TileHighNodeName = "Tilemap Red Changing Shown in Blue 2 Tile High";
+
+    [SerializeField]
     [Tooltip("Node name for tilemapCanvas")]
     private string tilemapCanvasNodeName = "Tilemap Canvas";
+
+    [SerializeField]
+    [Tooltip("Node name for tilemapCanvas2TileHigh")]
+    private string tilemapCanvas2TileHigh = "Tilemap Canvas 2 Tile High";
 
 
     [Header("Entitys")]
@@ -615,6 +643,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 return false;
             }
             this.tileChangeListA.Add(tile);
+            this.tileChangeListB.Remove(tile);
             return true;
         }
         else if(entity == Entity.B)
@@ -624,6 +653,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 return false;
             }
             this.tileChangeListB.Add(tile);
+            this.tileChangeListA.Remove(tile);
             return true;
         }
         return false;
