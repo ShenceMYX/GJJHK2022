@@ -79,7 +79,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for initialTilemap")]
-    private string initialTilemapNodeName = "Tilemap Red Changing";
+    private string initialTilemapNodeName = "Tilemap Initial";
 
     [SerializeField]
     [Tooltip("Node name for changingTilemapA")]

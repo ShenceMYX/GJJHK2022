@@ -15,6 +15,15 @@ LightShape lightShapeB: light shape offset for Entity B
 
 
 API:
+
+SelectTilemap(Grid grid)
+
+Select a room using it's grid gameObject, which contains all the 6
+required tilemaps (initial, canvas, swappingA, swappingB, changingA,
+changingB).
+
+
+
 InitializeTilemap()
 
 Initialize tilemap, using initialTilemap to fill tilemapCanvas,
@@ -58,7 +67,9 @@ Offset (0, 0) is the tile where entityDetectCenterA(B) stays.
 
 
 
-
 [Remarks]
 entityDetectCenterA(B) probably needs to be attached to a gameObject which
 contains entity's spriteRenderer, and being a child gameObject.
+
+SelectTilemap should be used before entering a room, such as in game starts,
+followed by an InitializeTilemap call if first time entering this room.
