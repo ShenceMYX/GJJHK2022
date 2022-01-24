@@ -11,10 +11,13 @@ namespace ns
 	{
         private bool isCurrentTileMapA = false;
         private GameObject[] playerGOs;
+        public Grid initialRoom;
 
         private void OnEnable()
         {
+            TilemapSwapper.Instance.SelectTilemaps(initialRoom, TilemapSwapper.Entity.A);
             TilemapSwapper.Instance.InitializeTilemap();
+
 
             playerGOs = new GameObject[2];
             int index = 0;
