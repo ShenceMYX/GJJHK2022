@@ -36,17 +36,41 @@ probably should invoke inside OnEnable() or other restart occasions.
 
 
 
-ChangeTilemap(Enum Entity, Enum Direction)
+ChangeTilemap(Enum Entity, Enum Direction, bool isOn)
 Enum Entity is declared inside class TilemapSwapper,
 use like TilemapSwapper.Entity.A, same for Enum Direction
 Change tile permanently to one world type, with offset (0,0) in
 the tile which entityDetectCenterA(B) stays.
+isOn indicates whether entity's flash light is on or off
 
 
 
-ChangeTilemap(Transform, Direction)
+
+ChangeTilemap(Transform detectCenter, Direction direction, bool isOn = true)
 Same as above, however, can use original entityDetectCenterA(B) as one of 
 the two arguments.
+isOn indicates whether entity's flash light is on or off
+
+
+
+
+ChangeTilemap(Entity entity, Vector2Int offset, bool isOn = true)
+Change tile according to the offset relative to the entity's position.
+
+
+
+
+ChangeTilemapAt(Entity entity, Vector2Int cell, bool isOn = true)
+Directly change tile at location cell, in current selected grid,
+in entity's perspective.
+
+
+
+ChangeTilemapAt(Entity entity, Vector2Int centerCell, Direction direction, bool isOn=true)
+In entity's perspective, change tiles centered at centerCell,
+in direction's direction, using selected lightShape.
+(Use SelectLightShape to change lightShape for A/B's flashlight.
+
 
 
 
@@ -82,6 +106,17 @@ Must invoke after checking current cell is an Elevator cell.
 Vector2Int GetOtherPortalLocation(Entity entity)
 Retrives current portal's destination cell(currently two way portal.)
 Must invoke after checking current cell is a portal cell.
+
+
+
+GetCurrentGrid()
+Retrieves current selected grid.
+
+
+
+GetCell(Vector3 worldPosition)
+Retrieves cell coordinate of current selected grid at current position.
+
 
 
 

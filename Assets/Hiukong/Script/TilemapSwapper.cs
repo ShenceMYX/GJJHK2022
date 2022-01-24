@@ -252,6 +252,60 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="entity">Specify which entity's world to change</param>
+    /// <param name="offset">The tile's offset from detectCenter cell</param>
+    /// <param name="isOn">Is the flashlight on?</param>
+    /// <returns></returns>
+    public bool ChangeTilemap(Entity entity, Vector2Int offset, bool isOn = true)
+    {
+        Transform ent;
+        Tilemap tilemapChangeTo;
+        Vector2Int[] shapeOffsets = { offset };
+        if (entity == Entity.A)
+        {
+            ent = entityDetectCenterA;
+            tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+        }
+        else if (entity == Entity.B)
+        {
+            ent = entityDetectCenterB;
+            tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+        }
+        else
+            return false;
+
+        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
+        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
+
+        return true;
+    }
+
+
+    /// <summary>
+    /// Swap tilemap to specified world's tilemap. 
+    /// Invoke this method when using "flashlight".
+    /// </summary>
+    /// <param name="entity">The detect center transform of the entity</param>
+    /// <param name="direction">And in which direction</param>
+    /// <returns></returns>
+    public bool ChangeTilemap(Transform detectCenter, Direction direction, bool isOn = true)
+    {
+        if (detectCenter == entityDetectCenterA)
+        {
+            return ChangeTilemap(Entity.A, direction, isOn);
+        }
+        else if (detectCenter == entityDetectCenterB)
+        {
+            return ChangeTilemap(Entity.B, direction, isOn);
+        }
+        else
+            return false;
+    }
+
+
+    /// <summary>
     /// Change Tilemap centered at centerCell, with direction direction,
     /// in entity's world.
     /// </summary>
@@ -309,37 +363,6 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="entity">Specify which entity's world to change</param>
-    /// <param name="offset">The tile's offset from detectCenter cell</param>
-    /// <param name="isOn">Is the flashlight on?</param>
-    /// <returns></returns>
-    public bool ChangeTilemap(Entity entity, Vector2Int offset, bool isOn = true)
-    {
-        Transform ent;
-        Tilemap tilemapChangeTo;
-        Vector2Int[] shapeOffsets = { offset };
-        if (entity == Entity.A)
-        {
-            ent = entityDetectCenterA;
-            tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
-        }
-        else if (entity == Entity.B)
-        {
-            ent = entityDetectCenterB;
-            tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
-        }
-        else
-            return false;
-
-        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
-        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
-
-        return true;
-    }
-
-    /// <summary>
     /// Restore tile to its previous state.
     /// </summary>
     /// <returns>Return True if surccessfully restored.</returns>
@@ -355,28 +378,6 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     public bool RestoreTilemap(Entity entity, Vector2Int offset)
     {
         return ChangeTilemap(entity, offset, false);
-    }
-
-
-    /// <summary>
-    /// Swap tilemap to specified world's tilemap. 
-    /// Invoke this method when using "flashlight".
-    /// </summary>
-    /// <param name="entity">The detect center transform of the entity</param>
-    /// <param name="direction">And in which direction</param>
-    /// <returns></returns>
-    public bool ChangeTilemap(Transform detectCenter, Direction direction, bool isOn = true)
-    {
-        if (detectCenter == entityDetectCenterA)
-        {
-            return ChangeTilemap(Entity.A, direction, isOn);
-        }
-        else if (detectCenter == entityDetectCenterB)
-        {
-            return ChangeTilemap(Entity.B, direction, isOn);
-        }
-        else
-            return false;
     }
 
 
