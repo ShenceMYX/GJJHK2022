@@ -25,6 +25,15 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         COUNT
     };
 
+    public enum TileType
+    {
+        PASSABLE,
+        WALL,
+        PORTAL,
+        ELEVATOR,
+        COUNT
+    };
+
     private class Matrix2x2
     {
         private Vector2Int a;
@@ -123,6 +132,9 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private LightShape lightShapeB;
 
 
+    // tilemap data
+    private TilemapData tilemapData;
+
     // storing current room's tilemaps
     private Tilemap initialTilemap;
     private Tilemap changingTilemapA;
@@ -159,6 +171,18 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             grid.transform.Find(changingTilemapANodeName).GetComponent<Tilemap>(),
             grid.transform.Find(changingTilemapBNodename).GetComponent<Tilemap>(),
             grid.transform.Find(tilemapCanvasNodeName).GetComponent<Tilemap>());
+        return old;
+    }
+
+
+    /// <summary>
+    /// Select current tilemap's tilemapData
+    /// </summary>
+    /// <returns>Return used tilemapData</returns>
+    public TilemapData SelectTilemapData(TilemapData newTilemapData)
+    {
+        TilemapData old = this.tilemapData;
+        this.tilemapData = newTilemapData;
         return old;
     }
 
