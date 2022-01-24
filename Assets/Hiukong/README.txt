@@ -128,4 +128,5 @@ contains entity's spriteRenderer, and being a child gameObject.
 SelectTilemap should be used before entering a room, such as in game starts,
 followed by an InitializeTilemap call if first time entering this room.
 
-No longer need an initialTilemap placeHolder, instead, SelectTilemap must be 
+No longer need an initialTilemap placeHolder, instead, SelectTilemap must decides
+which entity's world is intial world.

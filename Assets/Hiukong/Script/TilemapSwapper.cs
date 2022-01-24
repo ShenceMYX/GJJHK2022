@@ -4,6 +4,7 @@ using Common;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+using System;
 
 
 public class TilemapSwapper : MonoSingleton<TilemapSwapper>
@@ -158,6 +159,11 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private HashSet<Vector2Int> tileChangeListA = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> tileChangeListB = new HashSet<Vector2Int>();
 
+    // wall detection
+    private Dictionary<int, int> lowerWall = new Dictionary<int, int>();
+    private Dictionary<int, int> upperWall = new Dictionary<int, int>();
+    private List<Vector2Int> processedOffsets = new List<Vector2Int>();
+
     #endregion
 
 
@@ -165,15 +171,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     /// <summary>
     /// Select the grid which contains all the current room's tilemaps
+    /// Invoke this after moving to new Grid.
     /// </summary>
     /// <param name="grid">The grid of current room</param>
-    /// <param name="initialTilemapEntity">Which world the entity is borne in.</param>
+    /// <param name="initialTilemapEntity">Which world the entity is borne in, default is A's world.</param>
     /// <returnrs>Return old grid</returnrs>
-    public Grid SelectTilemaps(Grid grid, Entity initialTilemapEntity)
+    public Grid SelectTilemaps(Grid grid, Entity initialTilemapEntity = Entity.A)
     {
         Grid old = this.grid;
         this.grid = grid;
-        this.tilemapData = grid.GetComponent<TilemapData>();
+        SelectTilemapData(grid.GetComponent<TilemapData>());
         selectTilemaps(initialTilemapEntity,
             grid.transform.Find(swappingTilemapANodeName).GetComponent<Tilemap>(),
             grid.transform.Find(swappingTilemapBNodeName).GetComponent<Tilemap>(),
@@ -330,7 +337,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         HashSet<Vector2Int> tilesChangedCurrent = entity == Entity.A ? tileChangeListA : tileChangeListB;
         HashSet<Vector2Int> tilesChangedOther = entity == Entity.A ? tileChangeListB : tileChangeListA;
         Tilemap tilemapChangedCurrent = entity == Entity.A ? changingTilemapA : changingTilemapB;
-        Tilemap tilemapChangedOther = entity == Entity.A ? swappingTilemapB : swappingTilemapA;
+        Tilemap tilemapChangedOther = entity == Entity.A ? changingTilemapBShownInA : changingTilemapAShownInB;
 
         for (int i = bounds.xMin; i < bounds.xMax; i++)
         {
@@ -478,7 +485,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     private void changeTilemap(Tilemap tilemapChangeTo, Vector2Int entityCell, Vector2Int[] shapeOffsets, Entity entity, bool isChange)
     {
-        foreach (Vector2Int offset in shapeOffsets)
+        foreach (Vector2Int offset in offsetWallTest(entity, shapeOffsets))
         {
             Vector2Int cell = new Vector2Int(entityCell.x + offset.x, entityCell.y + offset.y);
             Vector3Int vec = new Vector3Int(cell.x, cell.y, 0);
@@ -571,7 +578,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return false;
     }
 
-    public void selectTilemaps(Entity entity, Tilemap swappingA, Tilemap swappingB, Tilemap changingA, Tilemap changingB,
+    private void selectTilemaps(Entity entity, Tilemap swappingA, Tilemap swappingB, Tilemap changingA, Tilemap changingB,
             Tilemap changingAShownInB, Tilemap changingBShownInA, Tilemap canvas)
     {
         initialTilemap = entity == Entity.A?swappingA:swappingB;
@@ -586,27 +593,137 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     private bool isCurrentTileWall(Entity entity)
     {
+        return isOffsetTileWall(entity, Vector2Int.zero);
+    }
+
+    private bool isOffsetTileWall(Entity entity, Vector2Int offset)
+    {
         Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
-        return (tilemapCanvas.GetColliderType(grid.WorldToCell(ent.position)) != Tile.ColliderType.None);
+        Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
+        return (tilemapCanvas.GetColliderType(grid.WorldToCell(pos)) != Tile.ColliderType.None);
     }
 
     private bool isCurrentTilePortal(Entity entity)
     {
+        return isOffsetTilePortal(entity, Vector2Int.zero);
+    }
+
+    private bool isOffsetTilePortal(Entity entity, Vector2Int offset)
+    {
         Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
-        return tilemapData.IsPortalLocation(entity, (Vector2Int)grid.WorldToCell(ent.position));
+        Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
+        return tilemapData.IsPortalLocation(entity, (Vector2Int)grid.WorldToCell(pos));
     }
 
 
     private bool isCurrentTileElevator(Entity entity)
     {
-        Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
-        return tilemapData.IsElevatorLocation(entity, (Vector2Int)grid.WorldToCell(ent.position));
+        return isOffsetTileElevator(entity, Vector2Int.zero);
     }
+
+    private bool isOffsetTileElevator(Entity entity, Vector2Int offset)
+    {
+        Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
+        Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
+        return tilemapData.IsElevatorLocation(entity, (Vector2Int)grid.WorldToCell(pos));
+    }
+
 
     private bool isCurrentTileInteractable(Entity entity)
     {
+        return isOffsetTileInteractable(entity, Vector2Int.zero);
+    }
+
+    private bool isOffsetTileInteractable(Entity entity, Vector2Int offset)
+    {
         Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
-        return tilemapData.IsInteractableLocation(entity, (Vector2Int)grid.WorldToCell(ent.position));
+        Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
+        return tilemapData.IsInteractableLocation(entity, (Vector2Int)grid.WorldToCell(pos));
+    }
+
+    private List<Vector2Int> offsetWallTest(Entity entity, Vector2Int[] offsets)
+    {
+        if (offsets.Length == 0) return null;
+        Vector3Int center = (Vector3Int)grid.WorldToCell((entity == Entity.A ? entityDetectCenterA : entityDetectCenterB).position);
+        List<OffsetDepth> offsetsList = new List<OffsetDepth>();
+        foreach(Vector2Int offset in offsets)
+        {
+            offsetsList.Add(new OffsetDepth(offset));
+        }
+        offsetsList.Sort();
+
+        processedOffsets.Clear();
+        lowerWall.Clear();
+        upperWall.Clear();
+        int leftWallDepth = int.MinValue;
+        int rightWallDepth = int.MaxValue;
+        
+        foreach(Vector2Int offset in offsets)
+        {
+            if(offset.y > 0)    // compare upper wall
+            {
+                if(isOffsetTileWall(entity, offset))
+                {
+                    if (!upperWall.ContainsKey(offset.x))
+                    {
+                        upperWall[offset.x] = offset.y;
+                        processedOffsets.Add(offset);        // add upper wall
+                    }
+                }
+                else{
+                    if(!upperWall.ContainsKey(offset.x) || upperWall[offset.x] > offset.y)
+                    {
+                        processedOffsets.Add(offset);
+                    }
+                }
+            }
+            else if(offset.y < 0)   // compare right wall
+            {
+                if(isOffsetTileWall(entity, offset))
+                {
+                    if (!lowerWall.ContainsKey(offset.x))
+                    {
+                        lowerWall[offset.x] = offset.y;
+                        // don't add lower wall
+                    }
+                }
+                else
+                {
+                    if(!lowerWall.ContainsKey(offset.x) || lowerWall[offset.x] < offset.y)
+                    {
+                        processedOffsets.Add(offset);
+                    }
+                }
+            }
+            else {  // compare left and right wall
+                if(offset.x < 0)
+                {
+                    if(isOffsetTileWall(entity, offset))
+                    {
+                        leftWallDepth = offset.x;
+                        processedOffsets.Add(offset);
+                    }
+                    else if(offset.x > leftWallDepth)
+                    {
+                        processedOffsets.Add(offset);
+                    }
+                }
+                else
+                {
+                    if (isOffsetTileWall(entity, offset))
+                    {
+                        rightWallDepth = offset.x;
+                        processedOffsets.Add(offset);
+                    }
+                    else if(offset.x < rightWallDepth)
+                    {
+                        processedOffsets.Add(offset);
+                    }
+                }
+            }
+        }
+
+        return processedOffsets;
     }
 
 
@@ -661,7 +778,38 @@ public class TilemapSwapperEditor: Editor
                     pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), tilemap.cellSize);
             Handles.Label(new Vector3(upleft.x, upleft.y + tilemap.cellSize.y, 0), "Current Size: " + "(" + pos.x + "," + pos.y + ")");
         }
+    }
+}
 
 
+public class OffsetDepth : IComparable
+{
+    public Vector2Int value
+    {
+        get;
+        set;
+    }
+
+    public OffsetDepth(Vector2Int value)
+    {
+        this.value = value;
+    }
+
+    public int CompareTo(System.Object obj)
+    {
+        OffsetDepth other = obj as OffsetDepth;
+        if(Math.Abs(this.value.y) == Math.Abs(other.value.y))
+        {
+            return Math.Abs(this.value.x) - Math.Abs(other.value.x);
+        }
+        else
+        {
+            return Math.Abs(this.value.y) - Math.Abs(other.value.y);
+        }
+    }
+
+    public override string ToString()
+    {
+        return this.value.ToString();
     }
 }

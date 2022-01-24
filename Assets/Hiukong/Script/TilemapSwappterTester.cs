@@ -7,6 +7,7 @@ public class TilemapSwappterTester : MonoBehaviour
 {
 
     public PlayerController player;
+    public Grid grid;
 
     Dictionary<KeyCode, TilemapSwapper.Direction> map;
 
@@ -20,6 +21,7 @@ public class TilemapSwappterTester : MonoBehaviour
         map[KeyCode.DownArrow] = TilemapSwapper.Direction.DOWN;
         map[KeyCode.LeftArrow] = TilemapSwapper.Direction.LEFT;
 
+        GetComponent<TilemapSwapper>().SelectTilemaps(grid);
         GetComponent<TilemapSwapper>().InitializeTilemap();
     }
 
