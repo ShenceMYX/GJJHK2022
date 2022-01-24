@@ -147,7 +147,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for tilemapCanvas2TileHigh")]
-    private string tilemapCanvas2TileHigh = "Tilemap Canvas 2 Tile High";
+    private string tilemapCanvas2TileHighNodeName = "Tilemap Canvas 2 Tile High";
 
 
     [Header("Entitys")]
@@ -178,6 +178,14 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private Tilemap changingTilemapAShownInB;
     private Tilemap changingTilemapBShownInA;
     private Tilemap tilemapCanvas;
+    private Tilemap initialTilemap2Tile;
+    private Tilemap changingTilemapA2Tile;
+    private Tilemap changingTilemapB2Tile;
+    private Tilemap swappingTilemapA2Tile;
+    private Tilemap swappingTilemapB2Tile;
+    private Tilemap changingTilemapAShownInB2Tile;
+    private Tilemap changingTilemapBShownInA2Tile;
+    private Tilemap tilemapCanvas2Tile;
 
     // storing flashlight's shape offsets in 4 directions
     private List<Vector2Int[]> shapeAList = new List<Vector2Int[]>();
@@ -186,6 +194,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     // storing tiles changed by A/B
     private HashSet<Vector2Int> tileChangeListA = new HashSet<Vector2Int>();
     private HashSet<Vector2Int> tileChangeListB = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> tileChangeListA2Tile = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> tileChangeListB2Tile = new HashSet<Vector2Int>();
 
     // wall detection
     private Dictionary<int, int> lowerWall = new Dictionary<int, int>();
@@ -216,7 +226,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             grid.transform.Find(changingTilemapBNodename).GetComponent<Tilemap>(),
             grid.transform.Find(changingTilemapAShownInBNodeName).GetComponent<Tilemap>(),
             grid.transform.Find(changingTilemapBShownInANodeName).GetComponent<Tilemap>(),
-            grid.transform.Find(tilemapCanvasNodeName).GetComponent<Tilemap>());
+            grid.transform.Find(tilemapCanvasNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(swappingTilemap2TileHighANodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(swappingTilemap2TileHighBNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(changingTilemap2TileHighANodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(changingTilemap2TileHighBNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(changingTilemapAShownInB2TileHighNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(changingTilemapBShownInA2TileHighNodeName).GetComponent<Tilemap>(),
+            grid.transform.Find(tilemapCanvas2TileHighNodeName).GetComponent<Tilemap>()
+            );
+
         return old;
     }
 
@@ -256,24 +275,27 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     {
         Transform ent;
         Tilemap tilemapChangeTo;
+        Tilemap tilemapChangeTo2Tile;
         Vector2Int[] shapeOffsets;
         if (entity == Entity.A)
         {
             ent = entityDetectCenterA;
             tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+            tilemapChangeTo2Tile = isOn ? changingTilemapA2Tile : swappingTilemapA2Tile;
             shapeOffsets = shapeAList[(int)direction];
         }
         else if (entity == Entity.B)
         {
             ent = entityDetectCenterB;
             tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+            tilemapChangeTo2Tile = isOn ? changingTilemapB2Tile : swappingTilemapB2Tile;
             shapeOffsets = shapeBList[(int)direction];
         }
         else 
             return false;
 
         Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
-        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
+        changeTilemap(tilemapChangeTo, tilemapChangeTo2Tile, entityCell, shapeOffsets, entity, isOn);
 
         return true;
     }
@@ -290,22 +312,25 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     {
         Transform ent;
         Tilemap tilemapChangeTo;
+        Tilemap tilemapChangeTo2Tile;
         Vector2Int[] shapeOffsets = { offset };
         if (entity == Entity.A)
         {
             ent = entityDetectCenterA;
             tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+            tilemapChangeTo2Tile = isOn ? changingTilemapA2Tile : swappingTilemapA2Tile;
         }
         else if (entity == Entity.B)
         {
             ent = entityDetectCenterB;
             tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+            tilemapChangeTo2Tile = isOn ? changingTilemapB2Tile : swappingTilemapB2Tile;
         }
         else
             return false;
 
         Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
-        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
+        changeTilemap(tilemapChangeTo, tilemapChangeTo2Tile, entityCell, shapeOffsets, entity, isOn);
 
         return true;
     }
@@ -342,23 +367,26 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     {
         Transform ent;
         Tilemap tilemapChangeTo;
+        Tilemap tilemapChangeTo2Tile;
         Vector2Int[] shapeOffsets;
         if (entity == Entity.A)
         {
             ent = entityDetectCenterA;
             tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+            tilemapChangeTo2Tile = isOn ? changingTilemapA2Tile : swappingTilemapA2Tile;
             shapeOffsets = shapeAList[(int)direction];
         }
         else if (entity == Entity.B)
         {
             ent = entityDetectCenterB;
             tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+            tilemapChangeTo2Tile = isOn ? changingTilemapB2Tile : swappingTilemapB2Tile;
             shapeOffsets = shapeBList[(int)direction];
         }
         else
             return false;
 
-        changeTilemap(tilemapChangeTo, centerCell, shapeOffsets, entity, isOn);
+        changeTilemap(tilemapChangeTo, tilemapChangeTo2Tile, centerCell, shapeOffsets, entity, isOn);
 
         return true;
     }
@@ -371,22 +399,25 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     {
         Transform ent;
         Tilemap tilemapChangeTo;
+        Tilemap tilemapChangeTo2Tile;
         if (entity == Entity.A)
         {
             ent = entityDetectCenterA;
             tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+            tilemapChangeTo2Tile = isOn ? changingTilemapA2Tile : swappingTilemapA2Tile;
         }
         else if (entity == Entity.B)
         {
             ent = entityDetectCenterB;
             tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+            tilemapChangeTo2Tile = isOn ? changingTilemapB2Tile : swappingTilemapB2Tile;
         }
         else
             return false;
 
         Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
         Vector2Int[] shapeOffsets = { cell - (Vector2Int)grid.WorldToCell(ent.position) };
-        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
+        changeTilemap(tilemapChangeTo, tilemapChangeTo2Tile, entityCell, shapeOffsets, entity, isOn);
         return false;
     }
 
@@ -426,6 +457,12 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         Tilemap tilemapChangedCurrent = entity == Entity.A ? changingTilemapA : changingTilemapB;
         Tilemap tilemapChangedOther = entity == Entity.A ? changingTilemapBShownInA : changingTilemapAShownInB;
 
+        Tilemap swappedTo2Tile = entity == Entity.A ? swappingTilemapA2Tile : swappingTilemapB2Tile;
+        HashSet<Vector2Int> tilesChangedCurrent2Tile = entity == Entity.A ? tileChangeListA2Tile : tileChangeListB2Tile;
+        HashSet<Vector2Int> tilesChangedOther2Tile = entity == Entity.A ? tileChangeListB2Tile : tileChangeListA2Tile;
+        Tilemap tilemapChangedCurrent2Tile = entity == Entity.A ? changingTilemapA2Tile : changingTilemapB2Tile;
+        Tilemap tilemapChangedOther2Tile = entity == Entity.A ? changingTilemapBShownInA2Tile : changingTilemapAShownInB2Tile;
+
         for (int i = bounds.xMin; i < bounds.xMax; i++)
         {
             for (int j = bounds.yMin; j < bounds.yMax; j++)
@@ -443,6 +480,28 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 else
                 {
                     tilemapCanvas.SetTile(vec3, swappedTo.GetTile(vec3));
+                }
+            }
+        }
+
+        bounds = initialTilemap2Tile.cellBounds;
+        for(int i = bounds.xMin; i < bounds.xMax; i++)
+        {
+            for (int j = bounds.yMin; j < bounds.yMax; j++)
+            {
+                vec3.Set(i, j, 0);
+                vec2.Set(i, j);
+                if (tilesChangedCurrent2Tile.Contains(vec2))
+                {
+                    tilemapCanvas2Tile.SetTile(vec3, tilemapChangedCurrent2Tile.GetTile(vec3));
+                }
+                else if (tilesChangedOther2Tile.Contains(vec2))
+                {
+                    tilemapCanvas.SetTile(vec3, tilemapChangedOther.GetTile(vec3));
+                }
+                else
+                {
+                    tilemapCanvas.SetTile(vec3, swappedTo2Tile.GetTile(vec3));
                 }
             }
         }
@@ -569,6 +628,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 tilemapCanvas.SetTile(vec, initialTilemap.GetTile(vec));
             }
         }
+        bounds = initialTilemap2Tile.cellBounds;
+        for(int i = bounds.xMin; i < bounds.xMax; i++)
+        {
+            for (int j = bounds.yMin; j < bounds.yMax; j++)
+            {
+                vec.Set(i, j, 0);
+                tilemapCanvas2Tile.SetTile(vec, initialTilemap2Tile.GetTile(vec));
+            }
+        }
+
         refreshCollider();
     }
 
@@ -590,7 +659,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     }
 
 
-    private void changeTilemap(Tilemap tilemapChangeTo, Vector2Int entityCell, Vector2Int[] shapeOffsets, Entity entity, bool isChange)
+    private void changeTilemap(Tilemap tilemapChangeTo, Tilemap tilemapChangeTo2Tile, 
+            Vector2Int entityCell, Vector2Int[] shapeOffsets, Entity entity, bool isChange)
     {
         foreach (Vector2Int offset in offsetWallTest(entity, shapeOffsets))
         {
@@ -598,6 +668,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
             Vector3Int vec = new Vector3Int(cell.x, cell.y, 0);
             tilemapCanvas.SetTile(vec, tilemapChangeTo.GetTile(vec));
             changeOrRestoreTile(entity, cell, isChange);
+
+            // Tilemap2Tile changes 2 tiles
+            Vector3Int vec2Tile = vec;
+            Vector2Int cell2Tile = cell;
+            tilemapCanvas2Tile.SetTile(vec2Tile, tilemapChangeTo2Tile.GetTile(vec2Tile));
+            changeOrRestoreTile2Tile(entity, cell, isChange);
+            vec2Tile.y += 1;
+            cell2Tile.y += 1;
+            tilemapCanvas2Tile.SetTile(vec2Tile, tilemapChangeTo2Tile.GetTile(vec2Tile));
+            changeOrRestoreTile2Tile(entity, cell, isChange);
         }
         refreshCollider();
     }
@@ -614,6 +694,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     {
         this.tileChangeListA.Clear();
         this.tileChangeListB.Clear();
+        this.tileChangeListA2Tile.Clear();
+        this.tileChangeListB2Tile.Clear();
     }
 
 
@@ -626,6 +708,18 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         else
         {
             return restoreChangedTile(entity, tile);
+        }
+    }
+
+    private bool changeOrRestoreTile2Tile(Entity entity, Vector2Int tile, bool isChange)
+    {
+        if (isChange)
+        {
+            return addChangedTile2Tile(entity, tile);
+        }
+        else
+        {
+            return restoreChangedTile2Tile(entity, tile);
         }
     }
 
@@ -687,8 +781,68 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return false;
     }
 
+
+    /// <summary>
+    /// Add changed tiles to record.
+    /// </summary>
+    /// <returns>true if the list doestn't contain the tile, false if contains</returns>
+    private bool addChangedTile2Tile(Entity entity, Vector2Int tile)
+    {
+        if (entity == Entity.A)
+        {
+            if (this.tileChangeListA2Tile.Contains(tile))
+            {
+                return false;
+            }
+            this.tileChangeListA2Tile.Add(tile);
+            this.tileChangeListB2Tile.Remove(tile);
+            return true;
+        }
+        else if (entity == Entity.B)
+        {
+            if (this.tileChangeListB2Tile.Contains(tile))
+            {
+                return false;
+            }
+            this.tileChangeListB2Tile.Add(tile);
+            this.tileChangeListA2Tile.Remove(tile);
+            return true;
+        }
+        return false;
+    }
+
+
+    /// <summary>
+    /// Delete changed tile from record.
+    /// </summary>
+    /// <returns>true if the list contains the tile, false if doesn't contains</returns>
+    private bool restoreChangedTile2Tile(Entity entity, Vector2Int tile)
+    {
+        if (entity == Entity.A)
+        {
+            if (this.tileChangeListA2Tile.Contains(tile))
+            {
+                this.tileChangeListA2Tile.Remove(tile);
+                return true;
+            }
+            return false;
+        }
+        else if (entity == Entity.B)
+        {
+            if (this.tileChangeListB2Tile.Contains(tile))
+            {
+                this.tileChangeListB2Tile.Remove(tile);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     private void selectTilemaps(Entity entity, Tilemap swappingA, Tilemap swappingB, Tilemap changingA, Tilemap changingB,
-            Tilemap changingAShownInB, Tilemap changingBShownInA, Tilemap canvas)
+            Tilemap changingAShownInB, Tilemap changingBShownInA, Tilemap canvas,
+            Tilemap swappingA2Tile, Tilemap swappingB2Tile, Tilemap changingA2Tile, Tilemap changingB2Tile,
+            Tilemap changingAShownInB2Tile, Tilemap changingBShownInA2Tile, Tilemap canvas2Tile)
     {
         initialTilemap = entity == Entity.A?swappingA:swappingB;
         swappingTilemapA = swappingA;
@@ -698,13 +852,20 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         changingTilemapAShownInB = changingAShownInB;
         changingTilemapBShownInA = changingBShownInA;
         tilemapCanvas = canvas;
+        initialTilemap2Tile = entity == Entity.A ? swappingA2Tile : swappingB2Tile;
+        swappingTilemapA2Tile = swappingA2Tile;
+        swappingTilemapB2Tile = swappingB2Tile;
+        changingTilemapA2Tile = changingA2Tile;
+        changingTilemapB2Tile = changingB2Tile;
+        changingTilemapAShownInB2Tile = changingAShownInB2Tile;
     }
 
     private bool isOffsetTileWall(Entity entity, Vector2Int offset)
     {
         Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
         Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
-        return (tilemapCanvas.GetColliderType(grid.WorldToCell(pos)) != Tile.ColliderType.None);
+        return (tilemapCanvas.GetColliderType(grid.WorldToCell(pos)) != Tile.ColliderType.None) ||
+            (tilemapCanvas2Tile.GetColliderType(grid.WorldToCell(pos)) != Tile.ColliderType.None);
     }
 
     private bool isOffsetTilePortal(Entity entity, Vector2Int offset)
