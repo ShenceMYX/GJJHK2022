@@ -99,7 +99,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for changingTilemap2TileHighA")]
-    private string changingTilemap2TileHighANodeName = "Tilemap Blue Changing 2 Tile Hight";
+    private string changingTilemap2TileHighANodeName = "Tilemap Blue Changing 2";
 
     [SerializeField]
     [Tooltip("Node name for changingTilemapB")]
@@ -107,7 +107,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for changingTilemap2TileHighB")]
-    private string changingTilemap2TileHighBNodeName = "Tilemap Red Changing 2 Tile High";
+    private string changingTilemap2TileHighBNodeName = "Tilemap Red Changing 2";
 
     [SerializeField]
     [Tooltip("Node name for swappingTilemapA")]
@@ -115,7 +115,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for swappingTilemap2TileHighA")]
-    private string swappingTilemap2TileHighANodeName = "Tilemap Blue Swapping 2 Tile High";
+    private string swappingTilemap2TileHighANodeName = "Tilemap Blue Swapping 2";
 
     [SerializeField]
     [Tooltip("Node name for swappingTilemapB")]
@@ -123,7 +123,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for swappingTilemap2TileHighB")]
-    private string swappingTilemap2TileHighBNodeName = "Tilemap Red Swapping 2 Tile High";
+    private string swappingTilemap2TileHighBNodeName = "Tilemap Red Swapping 2";
 
     [SerializeField]
     [Tooltip("Node name for changedOppositeTilemapA")]
@@ -131,7 +131,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for changingTilemapAShownInB2TileHigh")]
-    private string changingTilemapAShownInB2TileHighNodeName = "Tilemap Blue Changing Shown in Red 2 Tile High";
+    private string changingTilemapAShownInB2TileHighNodeName = "Tilemap Blue Changing Shown in Red 2";
 
     [SerializeField]
     [Tooltip("Node name for changedOppositeTilemapB")]
@@ -139,7 +139,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for changingTilemapBShownInA2TileHigh")]
-    private string changingTilemapBShownInA2TileHighNodeName = "Tilemap Red Changing Shown in Blue 2 Tile High";
+    private string changingTilemapBShownInA2TileHighNodeName = "Tilemap Red Changing Shown in Blue 2";
 
     [SerializeField]
     [Tooltip("Node name for tilemapCanvas")]
@@ -147,7 +147,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     [SerializeField]
     [Tooltip("Node name for tilemapCanvas2TileHigh")]
-    private string tilemapCanvas2TileHighNodeName = "Tilemap Canvas 2 Tile High";
+    private string tilemapCanvas2TileHighNodeName = "Tilemap Canvas 2";
 
 
     [Header("Entitys")]
@@ -497,7 +497,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 }
                 else if (tilesChangedOther2Tile.Contains(vec2))
                 {
-                    tilemapCanvas.SetTile(vec3, tilemapChangedOther.GetTile(vec3));
+                    tilemapCanvas.SetTile(vec3, tilemapChangedOther2Tile.GetTile(vec3));
                 }
                 else
                 {
@@ -687,6 +687,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     {
         tilemapCanvas.GetComponent<TilemapCollider2D>().enabled = false;
         tilemapCanvas.GetComponent<TilemapCollider2D>().enabled = true;
+        tilemapCanvas2Tile.GetComponent<TilemapCollider2D>().enabled = false;
+        tilemapCanvas2Tile.GetComponent<TilemapCollider2D>().enabled = true;
     }
 
 
@@ -852,12 +854,15 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         changingTilemapAShownInB = changingAShownInB;
         changingTilemapBShownInA = changingBShownInA;
         tilemapCanvas = canvas;
+
         initialTilemap2Tile = entity == Entity.A ? swappingA2Tile : swappingB2Tile;
         swappingTilemapA2Tile = swappingA2Tile;
         swappingTilemapB2Tile = swappingB2Tile;
         changingTilemapA2Tile = changingA2Tile;
         changingTilemapB2Tile = changingB2Tile;
         changingTilemapAShownInB2Tile = changingAShownInB2Tile;
+        changingTilemapBShownInA2Tile = changingBShownInA2Tile;
+        tilemapCanvas2Tile = canvas2Tile;
     }
 
     private bool isOffsetTileWall(Entity entity, Vector2Int offset)
