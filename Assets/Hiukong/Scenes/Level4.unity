@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -977,7 +977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &467439552
 Transform:
   m_ObjectHideFlags: 0
@@ -1725,7 +1725,61 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 467439557}
+    m_ColliderPaths:
+    - - X: 60000000
+        Y: 40000000
+      - X: -50000000
+        Y: 40000000
+      - X: -50000000
+        Y: -20000000
+      - X: 60000000
+        Y: -20000000
+    - - X: -40000000
+        Y: -10000000
+      - X: -40000000
+        Y: 30000000
+      - X: -20000000
+        Y: 30000000
+      - X: -20000000
+        Y: 10000000
+      - X: -10000000
+        Y: 10000000
+      - X: -10000000
+        Y: 30000000
+      - X: 0
+        Y: 30000000
+      - X: 0
+        Y: 20000000
+      - X: 10000000
+        Y: 20000000
+      - X: 10000000
+        Y: 30000000
+      - X: 20000000
+        Y: 30000000
+      - X: 20000000
+        Y: 20000000
+      - X: 40000000
+        Y: 20000000
+      - X: 40000000
+        Y: 10000000
+      - X: 50000000
+        Y: 10000000
+      - X: 50000000
+        Y: -10000000
+      - X: 0
+        Y: -10000000
+      - X: 0
+        Y: 0
+      - X: 30000000
+        Y: 0
+      - X: 30000000
+        Y: 10000000
+      - X: -10000000
+        Y: 10000000
+      - X: -10000000
+        Y: -10000000
   m_CompositePaths:
     m_Paths:
     - - {x: 5.999971, y: -2}
@@ -2808,8 +2862,8 @@ CompositeCollider2D:
   m_CompositePaths:
     m_Paths:
     - - {x: 4.999971, y: -1}
-      - {x: 4.9999747, y: 3.00001}
-      - {x: -4.00001, y: 2.9999747}
+      - {x: 4.999971, y: 3}
+      - {x: -4, y: 2.999971}
       - {x: -3.999971, y: -1}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
@@ -3388,6 +3442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eae426f57b48004184fe8c65ebc65b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDrawCurrentCellPos: 1
+  IsDrawCellCoordinates: 1
   grid: {fileID: 2090380539}
   initialTilemapNodeName: Tilemap Initial
   changingTilemapANodeName: Tilemap Blue Swapping

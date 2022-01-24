@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEditor;
 
 
 public class TilemapSwapper : MonoSingleton<TilemapSwapper>
@@ -68,6 +69,10 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     static Matrix2x2 shapeOffsetUpToDown = new Matrix2x2(new Vector2Int(1, 0), new Vector2Int(0, -1));
     static Matrix2x2 shapeOffsetUpToLeft = new Matrix2x2(new Vector2Int(0, 1), new Vector2Int(-1, 0));
     static Matrix2x2[] shapeOffsetChangeList = { shapeOffsetUpToRight, shapeOffsetUpToDown, shapeOffsetUpToLeft };
+
+    [Header("Gizmos")]
+    public bool IsDrawCurrentCellPos = true;
+    public bool IsDrawCellCoordinates = true;
     #endregion
 
 
@@ -143,14 +148,18 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// Select the grid which contains all the current room's tilemaps
     /// </summary>
     /// <param name="grid">The grid of current room</param>
-    public void SelectTilemaps(Grid grid)
+    /// <returnrs>Return old grid</returnrs>
+    public Grid SelectTilemaps(Grid grid)
     {
+        Grid old = this.grid;
+        this.grid = grid;
         selectTilemaps(grid.transform.Find(initialTilemapNodeName).GetComponent<Tilemap>(),
             grid.transform.Find(swappingTilemapANodeName).GetComponent<Tilemap>(),
             grid.transform.Find(swappingTilemapBNodeName).GetComponent<Tilemap>(),
             grid.transform.Find(changingTilemapANodeName).GetComponent<Tilemap>(),
             grid.transform.Find(changingTilemapBNodename).GetComponent<Tilemap>(),
             grid.transform.Find(tilemapCanvasNodeName).GetComponent<Tilemap>());
+        return old;
     }
 
     /// <summary>
@@ -335,6 +344,12 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return old;
     }
 
+
+    public Grid GetCurrentGrid()
+    {
+        return grid;
+    }
+
     #endregion
 
 
@@ -481,4 +496,56 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     #endregion
 
+
+
+    #region GIZMOS
+
+    void OnDrawGizmos()
+    {
+        Tilemap tilemap = grid.GetComponentInChildren<Tilemap>();
+        if (IsDrawCellCoordinates)
+        {
+            for (int i = tilemap.cellBounds.xMin; i < tilemap.cellBounds.xMax; i++)
+            {
+                for (int j = tilemap.cellBounds.yMin; j < tilemap.cellBounds.yMax; j++)
+                {
+                    Vector3 pos = grid.CellToWorld(new Vector3Int(i, j, 0));
+                    Handles.Label(new Vector3(pos.x + tilemap.cellSize.x / 2,
+                    pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), "(" + pos.x + "," + pos.y + ")");
+                }
+            }
+        }
+    }
+
+    #endregion
+
+}
+
+
+[CustomEditor(typeof(TilemapSwapper))]
+public class TilemapSwapperEditor: Editor
+{
+    public void OnSceneGUI()
+    {
+        TilemapSwapper t = target as TilemapSwapper;
+        Grid grid = t.GetCurrentGrid();
+        Camera camera = SceneView.currentDrawingSceneView.camera;
+        Tilemap tilemap = grid.gameObject.GetComponentInChildren<Tilemap>();
+        Vector2Int upleft = new Vector2Int(tilemap.cellBounds.xMin, tilemap.cellBounds.yMax);
+
+        if (t.IsDrawCurrentCellPos)
+        {
+            Vector3 mousePosition = new Vector3();
+            mousePosition.x = Event.current.mousePosition.x;
+            mousePosition.y = camera.pixelHeight - Event.current.mousePosition.y;
+            mousePosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, camera.nearClipPlane));
+            Vector3Int cell = grid.WorldToCell(mousePosition);
+            Vector3 pos = grid.CellToWorld(cell);
+            Handles.DrawWireCube(new Vector3(pos.x + tilemap.cellSize.x / 2,
+                    pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), tilemap.cellSize);
+            Handles.Label(new Vector3(upleft.x, upleft.y + tilemap.cellSize.y, 0), "Current Size: " + "(" + pos.x + "," + pos.y + ")");
+        }
+
+
+    }
 }
