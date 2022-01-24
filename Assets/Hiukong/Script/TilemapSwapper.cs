@@ -247,7 +247,65 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
         changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
 
-        return true;   
+        return true;
+    }
+
+
+    /// <summary>
+    /// Change Tilemap centered at centerCell, with direction direction,
+    /// in entity's world.
+    /// </summary>
+    /// <returns>True if successfully changed.</returns>
+    public bool ChangeTilemapAt(Entity entity, Vector2Int centerCell, Direction direction, bool isOn = true)
+    {
+        Transform ent;
+        Tilemap tilemapChangeTo;
+        Vector2Int[] shapeOffsets;
+        if (entity == Entity.A)
+        {
+            ent = entityDetectCenterA;
+            tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+            shapeOffsets = shapeAList[(int)direction];
+        }
+        else if (entity == Entity.B)
+        {
+            ent = entityDetectCenterB;
+            tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+            shapeOffsets = shapeBList[(int)direction];
+        }
+        else
+            return false;
+
+        changeTilemap(tilemapChangeTo, centerCell, shapeOffsets, entity, isOn);
+
+        return true;
+    }
+
+    /// <summary>
+    /// Change tilemap at cell, in entity's world.
+    /// </summary>
+    /// <returns>True if succussfully changed.</returns>
+    public bool ChangeTilemapAt(Entity entity, Vector2Int cell, bool isOn = true)
+    {
+        Transform ent;
+        Tilemap tilemapChangeTo;
+        if (entity == Entity.A)
+        {
+            ent = entityDetectCenterA;
+            tilemapChangeTo = isOn ? changingTilemapA : swappingTilemapA;
+        }
+        else if (entity == Entity.B)
+        {
+            ent = entityDetectCenterB;
+            tilemapChangeTo = isOn ? changingTilemapB : swappingTilemapB;
+        }
+        else
+            return false;
+
+        Vector2Int entityCell = (Vector2Int)grid.WorldToCell(ent.transform.position);
+        Vector2Int[] shapeOffsets = { cell - (Vector2Int)grid.WorldToCell(ent.position) };
+        changeTilemap(tilemapChangeTo, entityCell, shapeOffsets, entity, isOn);
+        return false;
     }
 
     /// <summary>
@@ -390,19 +448,29 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// <returns>Current TileType</returns>
     public TileType GetCurrentTileType(Entity entity)
     {
-        if (isCurrentTileWall(entity))
+        return GetOffsetTileType(entity, Vector2Int.zero);
+    }
+
+
+    /// <summary>
+    /// Retrive offset tile's logic type
+    /// </summary>
+    /// <returns>Offset tile's TileType</returns>
+    public TileType GetOffsetTileType(Entity entity, Vector2Int offset)
+    {
+        if (isOffsetTileWall(entity, offset))
         {
             return TileType.WALL;
         }
-        else if (isCurrentTileElevator(entity))
+        else if (isOffsetTileElevator(entity, offset))
         {
             return TileType.ELEVATOR;
         }
-        else if (isCurrentTilePortal(entity))
+        else if (isOffsetTilePortal(entity, offset))
         {
             return TileType.PORTAL;
         }
-        else if (isCurrentTileInteractable(entity))
+        else if (isOffsetTileInteractable(entity, offset))
         {
             return TileType.INTERACTABLE;
         }
@@ -443,6 +511,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     public Grid GetCurrentGrid()
     {
         return grid;
+    }
+
+    /// <summary>
+    /// Transforms world position to grid coordinates.
+    /// </summary>
+    /// <param name="worldPosition">World position</param>
+    /// <returns>Cell coordinate in this world position.</returns>
+    public Vector2Int GetCell(Vector3 worldPosition)
+    {
+        return (Vector2Int)grid.WorldToCell(worldPosition);
     }
 
     #endregion
@@ -591,21 +669,11 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         tilemapCanvas = canvas;
     }
 
-    private bool isCurrentTileWall(Entity entity)
-    {
-        return isOffsetTileWall(entity, Vector2Int.zero);
-    }
-
     private bool isOffsetTileWall(Entity entity, Vector2Int offset)
     {
         Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
         Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
         return (tilemapCanvas.GetColliderType(grid.WorldToCell(pos)) != Tile.ColliderType.None);
-    }
-
-    private bool isCurrentTilePortal(Entity entity)
-    {
-        return isOffsetTilePortal(entity, Vector2Int.zero);
     }
 
     private bool isOffsetTilePortal(Entity entity, Vector2Int offset)
@@ -615,23 +683,11 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return tilemapData.IsPortalLocation(entity, (Vector2Int)grid.WorldToCell(pos));
     }
 
-
-    private bool isCurrentTileElevator(Entity entity)
-    {
-        return isOffsetTileElevator(entity, Vector2Int.zero);
-    }
-
     private bool isOffsetTileElevator(Entity entity, Vector2Int offset)
     {
         Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
         Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
         return tilemapData.IsElevatorLocation(entity, (Vector2Int)grid.WorldToCell(pos));
-    }
-
-
-    private bool isCurrentTileInteractable(Entity entity)
-    {
-        return isOffsetTileInteractable(entity, Vector2Int.zero);
     }
 
     private bool isOffsetTileInteractable(Entity entity, Vector2Int offset)

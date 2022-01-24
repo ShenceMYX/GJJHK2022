@@ -67,6 +67,9 @@ Retrieves current entity location's tile type
 Enum TileType{PASSABLE, WALL, PORTAL, ELEVATOR, INTERACTABLE,}
 
 
+TileType GetOffsetTileType(Entity entity, Vector2Int offset)
+Retrieves offset entity location's tile type
+
 
 
 string GetElevatorDestinationScene(Entity entity)
