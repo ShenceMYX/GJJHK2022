@@ -15948,8 +15948,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eae426f57b48004184fe8c65ebc65b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDrawCurrentCellPos: 0
-  IsDrawCellCoordinates: 0
+  IsDrawCurrentCellPos: 1
+  IsDrawCellCoordinates: 1
+  CellCoordinateRange: {x: 10, y: 10}
   grid: {fileID: 727168983}
   changingA: changing A
   changingB: changing B

@@ -95,6 +95,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     [Header("Gizmos")]
     public bool IsDrawCurrentCellPos = true;
     public bool IsDrawCellCoordinates = true;
+    public Vector2Int CellCoordinateRange = new Vector2Int(10, 10);
     #endregion
 
 
@@ -846,19 +847,19 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     void OnDrawGizmos()
     {
-        Tilemap tilemap = grid.GetComponentInChildren<Tilemap>();
+        Tilemap tilemap = grid.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
 
         if (tilemap == null) return;
 
         if (IsDrawCellCoordinates)
         {
-            for (int i = tilemap.cellBounds.xMin; i < tilemap.cellBounds.xMax; i++)
+            for (int i = -CellCoordinateRange.x/2; i < CellCoordinateRange.x/2; i++)
             {
-                for (int j = tilemap.cellBounds.yMin; j < tilemap.cellBounds.yMax; j++)
+                for (int j = -CellCoordinateRange.y/2; j < CellCoordinateRange.y/2; j++)
                 {
                     Vector3 pos = grid.CellToWorld(new Vector3Int(i, j, 0));
-                    Handles.Label(new Vector3(pos.x + tilemap.cellSize.x / 2,
-                    pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), "(" + pos.x + "," + pos.y + ")");
+                    Handles.Label(new Vector3(pos.x + tilemap.cellSize.x/8,
+                    pos.y + tilemap.cellSize.y/2, pos.z + tilemap.cellSize.z / 2), "(" + pos.x + "," + pos.y + ")");
                 }
             }
         }
@@ -877,7 +878,7 @@ public class TilemapSwapperEditor: Editor
         TilemapSwapper t = target as TilemapSwapper;
         Grid grid = t.GetCurrentGrid();
         Camera camera = SceneView.currentDrawingSceneView.camera;
-        Tilemap tilemap = grid.GetComponentInChildren<Tilemap>();
+        Tilemap tilemap = grid.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
 
         if (tilemap == null) return;
 
