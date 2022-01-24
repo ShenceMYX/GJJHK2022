@@ -150,6 +150,28 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private string tilemapCanvas2TileHighNodeName = "Tilemap Canvas 2";
 
 
+    [SerializeField]
+    [Tooltip("Node containing changing tilemaps for A")]
+    private string changingA = "changing A";
+    [SerializeField]
+    [Tooltip("Node containing changing tilemaps for B")]
+    private string changingB = "changing B";
+    [SerializeField]
+    [Tooltip("Node containing swapping tilemaps for A")]
+    private string swappingA = "swapping A";
+    [SerializeField]
+    [Tooltip("Node containing swapping tilemaps for B")]
+    private string swappingB = "swapping B";
+    [SerializeField]
+    [Tooltip("Node containing changing tilemaps for A, Shown in B's world")]
+    private string changingAShownInB = "changing A Shown in B";
+    [SerializeField]
+    [Tooltip("Node containing changing tilemaps for A, Shown in B's world")]
+    private string changingBShownInA = "changing B Shown in A";
+
+
+
+
     [Header("Entitys")]
     [SerializeField]
     private Transform entityDetectCenterA;
@@ -186,6 +208,14 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private Tilemap changingTilemapAShownInB2Tile;
     private Tilemap changingTilemapBShownInA2Tile;
     private Tilemap tilemapCanvas2Tile;
+
+    private List<Tilemap> initialTilemaps;
+    private List<Tilemap> changingTilemapsA = new List<Tilemap>();
+    private List<Tilemap> changingTilemapsB = new List<Tilemap>();
+    private List<Tilemap> swappingTilemapsA = new List<Tilemap>();
+    private List<Tilemap> swappingTilemapsB = new List<Tilemap>();
+    private List<Tilemap> changingTilemapsA_ShownInB = new List<Tilemap>();
+    private List<Tilemap> changingTilemapsB_ShownInA = new List<Tilemap>();
 
     // storing flashlight's shape offsets in 4 directions
     private List<Vector2Int[]> shapeAList = new List<Vector2Int[]>();
@@ -1065,4 +1095,21 @@ public class OffsetDepth : IComparable
     {
         return this.value.ToString();
     }
+}
+
+public class TilemapCanvasPool
+{
+    public Grid grid
+    {
+        get;
+        set;
+    }
+
+    private List<GameObject> tilemapGameObject;
+
+    public TilemapCanvasPool(int initialTilemapCount = 5)
+    {
+        
+    }
+
 }
