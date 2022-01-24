@@ -92,10 +92,6 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     private Grid grid;
 
     [SerializeField]
-    [Tooltip("Node name for initialTilemap")]
-    private string initialTilemapNodeName = "Tilemap Initial";
-
-    [SerializeField]
     [Tooltip("Node name for changingTilemapA")]
     private string changingTilemapANodeName = "Tilemap Blue Changing";
 
@@ -160,12 +156,13 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// Select the grid which contains all the current room's tilemaps
     /// </summary>
     /// <param name="grid">The grid of current room</param>
+    /// <param name="initialTilemapEntity">Which world the entity is borne in.</param>
     /// <returnrs>Return old grid</returnrs>
-    public Grid SelectTilemaps(Grid grid)
+    public Grid SelectTilemaps(Grid grid, Entity initialTilemapEntity)
     {
         Grid old = this.grid;
         this.grid = grid;
-        selectTilemaps(grid.transform.Find(initialTilemapNodeName).GetComponent<Tilemap>(),
+        selectTilemaps(initialTilemapEntity,
             grid.transform.Find(swappingTilemapANodeName).GetComponent<Tilemap>(),
             grid.transform.Find(swappingTilemapBNodeName).GetComponent<Tilemap>(),
             grid.transform.Find(changingTilemapANodeName).GetComponent<Tilemap>(),
@@ -507,9 +504,9 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return false;
     }
 
-    public void selectTilemaps(Tilemap initial, Tilemap swappingA, Tilemap swappingB, Tilemap changingA, Tilemap changingB, Tilemap canvas)
+    public void selectTilemaps(Entity entity, Tilemap swappingA, Tilemap swappingB, Tilemap changingA, Tilemap changingB, Tilemap canvas)
     {
-        initialTilemap = initial;
+        initialTilemap = entity == Entity.A?swappingA:swappingB;
         swappingTilemapA = swappingA;
         swappingTilemapB = swappingB;
         changingTilemapA = changingA;
