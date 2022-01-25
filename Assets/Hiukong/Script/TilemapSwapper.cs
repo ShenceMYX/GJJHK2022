@@ -33,6 +33,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         PORTAL,                 // portal
         ELEVATOR,               // elevator, to next scene/level
         INTERACTABLE,           // interactable, preserved
+        DOOR,                   // door, to next level
         COUNT
     };
 
@@ -381,6 +382,13 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return ChangeTilemap(entity, offset, false);
     }
 
+    /// <summary>
+    /// Update current tilemap, equals to swapping to self world
+    /// </summary>
+    public void UpdateTilemap(Entity entity)
+    {
+        SwapTilemap(entity);
+    }
 
     /// <summary>
     /// Change tilemap to specified entity's own world.
@@ -394,6 +402,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         BoundsInt bounds;
 
         List<Tilemap> swappedTo = entity == Entity.A ? swappingTilemapsA : swappingTilemapsB;
+        Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
         HashSet<Vector2Int> tilesChangedCurrent = entity == Entity.A ? tileChangeListA : tileChangeListB;
         HashSet<Vector2Int> tilesChangedOther = entity == Entity.A ? tileChangeListB : tileChangeListA;
         List<Tilemap> tilemapChangedCurrent = entity == Entity.A ? changingTilemapsA : changingTilemapsB;
@@ -410,15 +419,15 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                     vec2.Set(j, k);
                     if (tilesChangedCurrent.Contains(vec2))
                     {
-                        tilemapCanvasPool.SetTile(i, vec3, tilemapChangedCurrent[i]);
+                        tilemapCanvasPool.SetTile(i, vec3, tilemapChangedCurrent[i], grid.WorldToCell(ent.position));
                     }
                     else if (tilesChangedOther.Contains(vec2))
                     {
-                        tilemapCanvasPool.SetTile(i, vec3, tilemapChangedOther[i]);
+                        tilemapCanvasPool.SetTile(i, vec3, tilemapChangedOther[i], grid.WorldToCell(ent.position));
                     }
                     else
                     {
-                        tilemapCanvasPool.SetTile(i, vec3, swappedTo[i]);
+                        tilemapCanvasPool.SetTile(i, vec3, swappedTo[i], grid.WorldToCell(ent.position));
                     }
                 }
             }
@@ -465,9 +474,9 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     /// <returns>Offset tile's TileType</returns>
     public TileType GetOffsetTileType(Entity entity, Vector2Int offset)
     {
-        if (isOffsetTileWall(entity, offset))
+        if(isOffsetTileDoor(entity, offset))
         {
-            return TileType.WALL;
+            return TileType.DOOR;
         }
         else if (isOffsetTileElevator(entity, offset))
         {
@@ -481,8 +490,12 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         {
             return TileType.INTERACTABLE;
         }
+        else if (isOffsetTileWall(entity, offset))
+        {
+            return TileType.WALL;
+        }
 
-        return TileType.PASSABLE;
+            return TileType.PASSABLE;
     }
 
     
@@ -542,6 +555,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         Vector3Int vec = new Vector3Int();
         int index = 0;
         BoundsInt bounds;
+
+        Transform ent = initialTilemaps == swappingTilemapsA ? entityDetectCenterA : entityDetectCenterB;
         foreach (Tilemap tilemap in initialTilemaps)
         {
             tilemapCanvasPool.CopyTilemapInfo(index, tilemap);
@@ -551,7 +566,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 for (int j = bounds.yMin; j < bounds.yMax; j++)
                 {
                     vec.Set(i, j, 0);
-                    tilemapCanvasPool.SetTile(index, vec, tilemap);
+                    tilemapCanvasPool.SetTile(index, vec, tilemap, grid.WorldToCell(ent.position));
                 }
             }
             index++;
@@ -584,7 +599,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         {
             Vector2Int cell = new Vector2Int(entityCell.x + offset.x, entityCell.y + offset.y);
             Vector3Int vec = new Vector3Int(cell.x, cell.y, 0);
-            tilemapCanvasPool.SetTile(tilemapChangeTo, vec);
+            tilemapCanvasPool.SetTile(tilemapChangeTo, vec, new Vector3Int(entityCell.x, entityCell.y, 0));
             changeOrRestoreTile(entity, cell, isChange);
         }
 
@@ -752,6 +767,14 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
         return tilemapData.IsInteractableLocation(entity, (Vector2Int)grid.WorldToCell(pos));
     }
+
+    private bool isOffsetTileDoor(Entity entity, Vector2Int offset)
+    {
+        Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
+        Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
+        return tilemapData.IsDoorLocation(entity, (Vector2Int)grid.WorldToCell(pos));
+    }
+
 
     private List<Vector2Int> offsetWallTest(Entity entity, Vector2Int[] offsets)
     {
@@ -942,7 +965,6 @@ public class TilemapCanvasPool
     }
 
     private List<Tilemap> tilemapList;
-
     private Transform canvasRoot;
 
     public TilemapCanvasPool()
@@ -1040,7 +1062,7 @@ public class TilemapCanvasPool
         tr.sharedMaterial = tr_.material;
     }
 
-    public void SetTile(int index, Vector3Int position, Tilemap tilemap)
+    public void SetTile(int index, Vector3Int position, Tilemap tilemap, Vector3Int entityPos)
     {
         TilemapFlag tf = tilemap.GetComponent<TilemapFlag>();
         if(tf != null)
@@ -1058,6 +1080,20 @@ public class TilemapCanvasPool
                         tilemap.GetTile(new Vector3Int(position.x, position.y + 1, position.z)));
                 }
             }
+            else if (tf.IsDoors)
+            {
+                if(tilemap.GetTile(position) != null)   // it's a door
+                {
+                    if(Math.Abs(entityPos.x - position.x) + Math.Abs(entityPos.y - position.y) > 1)
+                    {
+                        tilemapList[index].SetTile(position, tilemap.GetTile(position));
+                    }
+                    else
+                    {
+                        tilemapList[index].SetTile(position, null);
+                    }
+                }
+            }
 
         }
         else
@@ -1067,8 +1103,13 @@ public class TilemapCanvasPool
 
     }
 
-    public void SetTile(List<Tilemap> tilemaps, Vector3Int position)
+    public void SetTile(List<Tilemap> tilemaps, Vector3Int position, Vector3Int entityPos)
     {
+        for(int i = 0; i < tilemaps.Count; i++)
+        {
+            SetTile(i, position, tilemaps[i], entityPos);
+        }
+        /*
         for (int i = 0; i < tilemaps.Count; i++)
         {
             TilemapFlag tf = tilemaps[i].GetComponent<TilemapFlag>();
@@ -1087,12 +1128,27 @@ public class TilemapCanvasPool
                             tilemaps[i].GetTile(new Vector3Int(position.x, position.y + 1, position.z)));
                     }
                 }
+                else if (tf.IsDoors)
+                {
+                    if (tilemaps[i].GetTile(position) != null)   // it's a door
+                    {
+                        if (Math.Abs(entityPos.x - position.x) > 1 || Math.Abs(entityPos.y - position.y) > 1)
+                        {
+                            tilemapList[i].SetTile(position, tilemaps[i].GetTile(position));
+                        }
+                        else
+                        {
+                            tilemapList[i].SetTile(position, null);
+                        }
+                    }
+                }
             }
             else
             {
                 tilemapList[i].SetTile(position, tilemaps[i].GetTile(position));
             }
         }
+        */
     }
 
     public Tile.ColliderType GetColliderType(int index, Vector3Int position)

@@ -8,6 +8,7 @@ public class TilemapSwappterTester : MonoBehaviour
 
     public PlayerController player;
     public Grid grid;
+    public TilemapSwapper.Entity entity = TilemapSwapper.Entity.A;
 
     Dictionary<KeyCode, TilemapSwapper.Direction> map;
 
@@ -42,17 +43,21 @@ public class TilemapSwappterTester : MonoBehaviour
         {
             if (Input.GetKeyDown(pair.Key))
             {
-                GetComponent<TilemapSwapper>().ChangeTilemap(TilemapSwapper.Entity.A, pair.Value, isFlashlightOn);
+                GetComponent<TilemapSwapper>().ChangeTilemap(entity, pair.Value, isFlashlightOn);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.J))
         {
             GetComponent<TilemapSwapper>().SwapTilemap(TilemapSwapper.Entity.A);
+            entity = TilemapSwapper.Entity.A;
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
             GetComponent<TilemapSwapper>().SwapTilemap(TilemapSwapper.Entity.B);
+            entity = TilemapSwapper.Entity.B;
         }
+
+        GetComponent<TilemapSwapper>().UpdateTilemap(entity);
     }
 }

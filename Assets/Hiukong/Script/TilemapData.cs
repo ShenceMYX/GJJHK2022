@@ -44,6 +44,13 @@ public class TilemapData : MonoBehaviour
     [Tooltip("Interactable Tile, for entity B")]
     private List<Vector2Int> interactableListB;
 
+    [SerializeField]
+    [Tooltip("Door Tile, for entity A")]
+    private List<Vector2Int> doorListA;
+    [SerializeField]
+    [Tooltip("Door Tile, for entity B")]
+    private List<Vector2Int> doorListB;
+
 
     /// <summary>
     /// Determine if current position contains a portal.
@@ -143,6 +150,23 @@ public class TilemapData : MonoBehaviour
         else if(entity == TilemapSwapper.Entity.B)
         {
             return interactableListB.Contains(pos);
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Determine if current tile is a door location.
+    /// </summary>
+    /// <returns>True if is a door location.</returns>
+    public bool IsDoorLocation(TilemapSwapper.Entity entity, Vector2Int pos)
+    {
+        if(entity == TilemapSwapper.Entity.A)
+        {
+            return doorListA.Contains(pos);
+        }
+        else if(entity == TilemapSwapper.Entity.B)
+        {
+            return doorListB.Contains(pos);
         }
         return false;
     }
