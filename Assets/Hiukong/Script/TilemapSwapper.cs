@@ -1080,17 +1080,36 @@ public class TilemapCanvasPool
                         tilemap.GetTile(new Vector3Int(position.x, position.y + 1, position.z)));
                 }
             }
-            else if (tf.IsDoors)
+
+            if (tf.IsDoors)
             {
                 if(tilemap.GetTile(position) != null)   // it's a door
                 {
-                    if(Math.Abs(entityPos.x - position.x) + Math.Abs(entityPos.y - position.y) > 1)
+                    Vector3Int vec = new Vector3Int(position.x, position.y, position.z);
+                    if (tf.IsTwoTileHigh)
                     {
-                        tilemapList[index].SetTile(position, tilemap.GetTile(position));
+                        if(tilemap.GetTile(new Vector3Int(position.x, position.y-1, position.z)) != null)
+                        {
+                            vec.y -= 1; // the door's lower tile
+                        }
+                    }
+
+                    if(Math.Abs(entityPos.x - vec.x) + Math.Abs(entityPos.y - vec.y) > 1)
+                    {
+                        tilemapList[index].SetTile(vec, tilemap.GetTile(vec));
+                        if (tf.IsTwoTileHigh)
+                        {
+                            tilemapList[index].SetTile(new Vector3Int(vec.x, vec.y + 1, vec.z),
+                                tilemap.GetTile(new Vector3Int(vec.x, vec.y + 1, vec.z)));
+                        }
                     }
                     else
                     {
                         tilemapList[index].SetTile(position, null);
+                        if (tf.IsTwoTileHigh)
+                        {
+                            tilemapList[index].SetTile(new Vector3Int(vec.x, vec.y + 1, vec.z), null);
+                        }
                     }
                 }
             }
