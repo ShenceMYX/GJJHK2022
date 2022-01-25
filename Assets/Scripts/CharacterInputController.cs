@@ -100,6 +100,7 @@ namespace ns
                     }
 
                     SetAnimationState();
+                    TilemapSwapper.Instance.UpdateTilemap(entityType);
 
                 }
 
