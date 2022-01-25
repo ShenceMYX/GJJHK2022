@@ -171,7 +171,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     // wall detection
     private Dictionary<int, int> lowerWall = new Dictionary<int, int>();
     private Dictionary<int, int> upperWall = new Dictionary<int, int>();
-    private List<Vector2Int> processedOffsets = new List<Vector2Int>();
+    private HashSet<Vector2Int> processedOffsets = new HashSet<Vector2Int>();
 
 
 
@@ -776,7 +776,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
     }
 
 
-    private List<Vector2Int> offsetWallTest(Entity entity, Vector2Int[] offsets)
+    private HashSet<Vector2Int> offsetWallTest(Entity entity, Vector2Int[] offsets)
     {
         if (offsets.Length == 0) return null;
         Vector3Int center = (Vector3Int)grid.WorldToCell((entity == Entity.A ? entityDetectCenterA : entityDetectCenterB).position);
@@ -809,10 +809,17 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                     if(!upperWall.ContainsKey(offset.x) || upperWall[offset.x] > offset.y)
                     {
                         processedOffsets.Add(offset);
+                        // add additional tile for wall illumination
+                        /*
+                        if(isOffsetTileWall(entity, new Vector2Int(offset.x, offset.y + 1)))
+                        {
+                            processedOffsets.Add(new Vector2Int(offset.x, offset.y + 1));
+                        }
+                        */
                     }
                 }
             }
-            else if(offset.y < 0)   // compare right wall
+            else if(offset.y < 0)   // compare lower wall
             {
                 if(isOffsetTileWall(entity, offset))
                 {
@@ -841,6 +848,13 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                     else if(offset.x > leftWallDepth)
                     {
                         processedOffsets.Add(offset);
+                        // add additional tile for wall illumination
+                        /*
+                        if(isOffsetTileWall(entity, new Vector2Int(offset.x-1, offset.y)))
+                        {
+                            processedOffsets.Add(new Vector2Int(offset.x - 1, offset.y));
+                        }
+                        */
                     }
                 }
                 else
@@ -853,6 +867,13 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                     else if(offset.x < rightWallDepth)
                     {
                         processedOffsets.Add(offset);
+                        // add additional tile for wall illumination
+                        /*
+                        if (isOffsetTileWall(entity, new Vector2Int(offset.x + 1, offset.y)))
+                        {
+                            processedOffsets.Add(new Vector2Int(offset.x + 1, offset.y));
+                        }
+                        */
                     }
                 }
             }
