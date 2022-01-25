@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace ns
 
         public TilemapSwapper.Entity entityType = TilemapSwapper.Entity.B;
         public TilemapSwapper.Direction facingDirection;
+        private TilemapSwapper.Direction initialFacingDirection;
 
         private bool isFlashlightOpened = false;
         public KeyCode flashlightKey = KeyCode.LeftShift;
@@ -24,6 +26,7 @@ namespace ns
         {
             motor = GetComponent<CharacterMotor>();
             anim = GetComponentInChildren<Animator>();
+            initialFacingDirection = facingDirection;
         }
 
         private void OnEnable()
@@ -86,11 +89,20 @@ namespace ns
 
                     SetAnimationState();
 
+                    //CheckPortal();
                 }
 
             }
 
             
+        }
+
+        private void CheckPortal()
+        {
+            if(TilemapSwapper.Instance.GetCurrentTileType(entityType) == TilemapSwapper.TileType.PORTAL)
+            {
+                transform.position = new Vector3(TilemapSwapper.Instance.GetOtherPortalLocation(entityType).x, TilemapSwapper.Instance.GetOtherPortalLocation(entityType).y, 0);
+            }
         }
 
         private void FlashlightControlDetection()
@@ -128,6 +140,12 @@ namespace ns
                 default:
                     break;
             }
+        }
+
+        public void ResetFacingDir()
+        {
+            facingDirection = initialFacingDirection;
+            SetAnimationState();
         }
 
     }

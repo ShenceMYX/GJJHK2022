@@ -9,7 +9,14 @@ namespace ns
 	/// </summary>
 	public class CharacterMotor : MonoBehaviour
 	{
-		public void Movement(Vector2 dir)
+        private Vector2 initialPos;
+
+        private void Awake()
+        {
+            initialPos = transform.position;    
+        }
+
+        public void Movement(Vector2 dir)
         {
 			RaycastHit2D ray;
 			Vector2 pos = new Vector2(transform.position.x, transform.position.y);
@@ -24,7 +31,12 @@ namespace ns
             transform.position = pos;
 		}
 
-		void OnDrawGizmos()
+        public void ResetPos()
+        {
+            transform.position = initialPos;
+        }
+
+        void OnDrawGizmos()
 		{
 			Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
 			Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x - 1, colliderCenterPos.y));
