@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 80d6b792d387a49a08fd599e915179d0
+guid: bc129e446154442aeb2273c1a97acf88
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -139,9 +139,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 41
-        width: 26
-        height: 41
+        y: 64
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,10 +159,10 @@ TextureImporter:
       name: 03_1
       rect:
         serializedVersion: 2
-        x: 26
-        y: 41
-        width: 26
-        height: 41
+        x: 32
+        y: 64
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,10 +180,10 @@ TextureImporter:
       name: 03_2
       rect:
         serializedVersion: 2
-        x: 52
-        y: 41
-        width: 26
-        height: 41
+        x: 64
+        y: 64
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,10 +201,10 @@ TextureImporter:
       name: 03_3
       rect:
         serializedVersion: 2
-        x: 78
-        y: 41
-        width: 26
-        height: 41
+        x: 96
+        y: 64
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,8 +224,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 26
-        height: 41
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -243,10 +243,10 @@ TextureImporter:
       name: 03_5
       rect:
         serializedVersion: 2
-        x: 26
+        x: 32
         y: 0
-        width: 26
-        height: 41
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -264,10 +264,10 @@ TextureImporter:
       name: 03_6
       rect:
         serializedVersion: 2
-        x: 52
+        x: 64
         y: 0
-        width: 26
-        height: 41
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -285,10 +285,10 @@ TextureImporter:
       name: 03_7
       rect:
         serializedVersion: 2
-        x: 78
+        x: 96
         y: 0
-        width: 26
-        height: 41
+        width: 32
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

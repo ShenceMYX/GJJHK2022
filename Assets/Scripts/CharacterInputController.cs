@@ -58,28 +58,40 @@ namespace ns
                         //(int)KeyCode.A
                         case 0:
                             if(facingDirection == TilemapSwapper.Direction.LEFT)
+                            {
                                 motor.Movement(new Vector2(-1, 0));
+                                CheckPortal();
+                            }
                             facingDirection = TilemapSwapper.Direction.LEFT;
                             //if(isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.LEFT);
                             break;
                         //(int)KeyCode.D
                         case 1:
                             if (facingDirection == TilemapSwapper.Direction.RIGHT)
+                            {
                                 motor.Movement(new Vector2(1, 0));
+                                CheckPortal();
+                            }
                             facingDirection = TilemapSwapper.Direction.RIGHT;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.RIGHT);
                             break;
                         //(int)KeyCode.W
                         case 2:
                             if (facingDirection == TilemapSwapper.Direction.UP)
+                            {
                                 motor.Movement(new Vector2(0, 1));
+                                CheckPortal();
+                            }
                             facingDirection = TilemapSwapper.Direction.UP;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.UP);
                             break;
                         //(int)KeyCode.S
                         case 3:
                             if (facingDirection == TilemapSwapper.Direction.DOWN)
+                            {
                                 motor.Movement(new Vector2(0, -1));
+                                CheckPortal();
+                            }
                             facingDirection = TilemapSwapper.Direction.DOWN;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.DOWN);
                             break;
@@ -89,7 +101,6 @@ namespace ns
 
                     SetAnimationState();
 
-                    //CheckPortal();
                 }
 
             }
@@ -101,7 +112,7 @@ namespace ns
         {
             if(TilemapSwapper.Instance.GetCurrentTileType(entityType) == TilemapSwapper.TileType.PORTAL)
             {
-                transform.position = new Vector3(TilemapSwapper.Instance.GetOtherPortalLocation(entityType).x, TilemapSwapper.Instance.GetOtherPortalLocation(entityType).y, 0);
+                transform.position = new Vector3(TilemapSwapper.Instance.GetOtherPortalLocation(entityType).x + 0.6f, TilemapSwapper.Instance.GetOtherPortalLocation(entityType).y + 1, 0);
             }
         }
 
