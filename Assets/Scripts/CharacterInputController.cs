@@ -60,7 +60,7 @@ namespace ns
                             if(facingDirection == TilemapSwapper.Direction.LEFT)
                             {
                                 motor.Movement(new Vector2(-1, 0));
-                                CheckPortal();
+                                OnPlayerMove();
                             }
                             facingDirection = TilemapSwapper.Direction.LEFT;
                             //if(isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.LEFT);
@@ -70,7 +70,7 @@ namespace ns
                             if (facingDirection == TilemapSwapper.Direction.RIGHT)
                             {
                                 motor.Movement(new Vector2(1, 0));
-                                CheckPortal();
+                                OnPlayerMove();
                             }
                             facingDirection = TilemapSwapper.Direction.RIGHT;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.RIGHT);
@@ -80,7 +80,7 @@ namespace ns
                             if (facingDirection == TilemapSwapper.Direction.UP)
                             {
                                 motor.Movement(new Vector2(0, 1));
-                                CheckPortal();
+                                OnPlayerMove();
                             }
                             facingDirection = TilemapSwapper.Direction.UP;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.UP);
@@ -90,7 +90,7 @@ namespace ns
                             if (facingDirection == TilemapSwapper.Direction.DOWN)
                             {
                                 motor.Movement(new Vector2(0, -1));
-                                CheckPortal();
+                                OnPlayerMove();
                             }
                             facingDirection = TilemapSwapper.Direction.DOWN;
                             //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.DOWN);
@@ -107,6 +107,35 @@ namespace ns
             }
 
             
+        }
+
+        private void OnPlayerMove()
+        {
+            CheckPortal();
+            CheckDoor();
+        }
+
+        private void CheckDoor()
+        {
+            TilemapSwapper.Entity otherEntityType = entityType == TilemapSwapper.Entity.A ? TilemapSwapper.Entity.B : TilemapSwapper.Entity.A;
+            if (TilemapSwapper.Instance.GetCurrentTileType(entityType) == TilemapSwapper.TileType.DOOR)
+            {
+                if(TilemapSwapper.Instance.GetOffsetTileType(otherEntityType, new Vector2Int(1, 0)) != TilemapSwapper.TileType.DOOR)
+                {
+                    motor.Movement(new Vector2(-1, 0));
+                    MenuController.Instance.ShowWaitingUI();
+                }
+                else
+                {
+                    MenuController.Instance.CloseWaitingUI();
+                    MenuController.Instance.PlaySceneTransition();
+                }
+
+            }
+            else
+            {
+                MenuController.Instance.CloseWaitingUI();
+            }
         }
 
         private void CheckPortal()

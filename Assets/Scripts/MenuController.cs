@@ -8,9 +8,11 @@ namespace ns
 	/// <summary>
 	/// 
 	/// </summary>
-	public class DieMenu : MonoSingleton<DieMenu>
+	public class MenuController : MonoSingleton<MenuController>
 	{
 		public GameObject dieMenu;
+		public GameObject waitingMenu;
+		public GameObject sceneTransitionUI;
 
 		public void PauseGame()
         {
@@ -29,5 +31,21 @@ namespace ns
         {
 			Application.Quit();
         }
-    }
+
+		public void ShowWaitingUI()
+        {
+			waitingMenu.SetActive(true);
+        }
+
+		public void CloseWaitingUI()
+		{
+			waitingMenu.SetActive(false);
+		}
+
+		public void PlaySceneTransition()
+        {
+			sceneTransitionUI.SetActive(true);
+        }
+		
+	}
 }
