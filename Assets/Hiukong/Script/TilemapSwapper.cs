@@ -408,6 +408,8 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         List<Tilemap> tilemapChangedCurrent = entity == Entity.A ? changingTilemapsA : changingTilemapsB;
         List<Tilemap> tilemapChangedOther = entity == Entity.A ? changingTilemapsB_ShownInA : changingTilemapsA_ShownInB;
 
+
+        tilemapCanvasPool.ClearTilemap();
         for(int i = 0; i < swappedTo.Count; i++)
         {
             bounds = swappedTo[i].cellBounds;
