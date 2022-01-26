@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1030,6 +1030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dieMenu: {fileID: 1362550014}
+  waitingMenu: {fileID: 0}
+  sceneTransitionUI: {fileID: 0}
 --- !u!114 &215089512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4087,7 +4089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &436531036
 Transform:
   m_ObjectHideFlags: 0
@@ -8004,12 +8006,12 @@ CompositeCollider2D:
   m_CompositePaths:
     m_Paths:
     - - {x: 4.999971, y: -1}
-      - {x: 4.999971, y: 1}
-      - {x: 4, y: 0.99997073}
+      - {x: 4.999971, y: -0.00001}
+      - {x: 4, y: -0.0000393}
       - {x: 4.000029, y: -1}
     - - {x: -4.000029, y: -1}
-      - {x: -4.000029, y: 1}
-      - {x: -5, y: 0.99997073}
+      - {x: -4.000029, y: -0.00001}
+      - {x: -5, y: -0.0000393}
       - {x: -4.999971, y: -1}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
@@ -8116,7 +8118,7 @@ Tilemap:
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
-      m_AllTileFlags: 2147483649
+      m_AllTileFlags: 1
   - first: {x: 4, y: 0, z: 0}
     second:
       serializedVersion: 2
@@ -8125,7 +8127,7 @@ Tilemap:
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
-      m_AllTileFlags: 2147483649
+      m_AllTileFlags: 1
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 0
@@ -20964,7 +20966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1770891885
 Transform:
   m_ObjectHideFlags: 0
@@ -21255,7 +21257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1799714008
 Transform:
   m_ObjectHideFlags: 0
@@ -21938,7 +21940,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2020414073
 Transform:
   m_ObjectHideFlags: 0
