@@ -78,7 +78,7 @@ namespace ns
         private void CheckIfOnWall(TilemapSwapper.Entity entityType)
         {
             if (TilemapSwapper.Instance.GetCurrentTileType(entityType) == TilemapSwapper.TileType.WALL)
-                DieMenu.Instance.PauseGame();
+                MenuController.Instance.PauseGame();
         }
     }
 }
