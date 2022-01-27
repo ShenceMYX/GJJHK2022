@@ -1024,7 +1024,7 @@ public class TilemapCanvasPool
         {
             canvasRoot = new GameObject("tilemapCanvas").transform;
         }
-        canvasRoot.parent = grid.transform.parent.transform;
+        canvasRoot.parent = grid.transform;
         Grid old = this.grid;
         this.grid = grid;
 
