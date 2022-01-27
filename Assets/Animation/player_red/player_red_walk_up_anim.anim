@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_red_flashlight_idle_down_anim
+  m_Name: player_red_walk_up_anim
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,13 +20,22 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -8090365562718305141, guid: 26b90bcf80d1a4eea8043e05297abe0b,
+      value: {fileID: -4648414730939955707, guid: 01e44d78081504c0da3969c31b1b60c5,
+        type: 3}
+    - time: 0.16666667
+      value: {fileID: 537353529419175723, guid: 01e44d78081504c0da3969c31b1b60c5,
+        type: 3}
+    - time: 0.33333334
+      value: {fileID: 8154545783587741945, guid: 01e44d78081504c0da3969c31b1b60c5,
+        type: 3}
+    - time: 0.5
+      value: {fileID: 624198108732115026, guid: 01e44d78081504c0da3969c31b1b60c5,
         type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 60
+  m_SampleRate: 6
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -41,13 +50,16 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -8090365562718305141, guid: 26b90bcf80d1a4eea8043e05297abe0b, type: 3}
+    - {fileID: -4648414730939955707, guid: 01e44d78081504c0da3969c31b1b60c5, type: 3}
+    - {fileID: 537353529419175723, guid: 01e44d78081504c0da3969c31b1b60c5, type: 3}
+    - {fileID: 8154545783587741945, guid: 01e44d78081504c0da3969c31b1b60c5, type: 3}
+    - {fileID: 624198108732115026, guid: 01e44d78081504c0da3969c31b1b60c5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.016666668
+    m_StopTime: 0.6666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

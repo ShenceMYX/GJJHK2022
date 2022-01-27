@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 7dbb24d0d039046c5979e38fbf748383
+guid: 541474fa49cf343f7b747d562cad1b23
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3356593810811537127
-    second: 09_0
+      213: 265709771365302700
+    second: walking1_0
   - first:
-      213: 8189764540814591332
-    second: 09_1
+      213: 2702048672784883812
+    second: walking1_1
   - first:
-      213: 4020313350803619168
-    second: 09_2
+      213: -5920084103651266566
+    second: walking1_2
   - first:
-      213: 799073080607670626
-    second: 09_3
+      213: 1677518288825513387
+    second: walking1_3
   - first:
-      213: 1748543594927815141
-    second: 09_4
+      213: -3141982357180408099
+    second: walking1_4
   - first:
-      213: 2308415037690690295
-    second: 09_5
+      213: 1406754331540355289
+    second: walking1_5
   - first:
-      213: 2600735624873369648
-    second: 09_6
+      213: 7474962067132689898
+    second: walking1_6
   - first:
-      213: 2860556988222471652
-    second: 09_7
+      213: -3637948116245378958
+    second: walking1_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -135,7 +135,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 09_0
+      name: walking1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -149,14 +149,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 919bd4b86bbfa61d0800000000000000
-      internalID: -3356593810811537127
+      spriteID: ca1449711adffa300800000000000000
+      internalID: 265709771365302700
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_1
+      name: walking1_1
       rect:
         serializedVersion: 2
         x: 32
@@ -170,14 +170,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46508596573e7a170800000000000000
-      internalID: 8189764540814591332
+      spriteID: 460a82ba3fa9f7520800000000000000
+      internalID: 2702048672784883812
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_2
+      name: walking1_2
       rect:
         serializedVersion: 2
         x: 64
@@ -191,14 +191,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06df86821b50bc730800000000000000
-      internalID: 4020313350803619168
+      spriteID: affed69afd2a7dda0800000000000000
+      internalID: -5920084103651266566
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_3
+      name: walking1_3
       rect:
         serializedVersion: 2
         x: 96
@@ -212,14 +212,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 261823fabb0e61b00800000000000000
-      internalID: 799073080607670626
+      spriteID: ba57aadeefdb74710800000000000000
+      internalID: 1677518288825513387
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_4
+      name: walking1_4
       rect:
         serializedVersion: 2
         x: 0
@@ -233,14 +233,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e9f4f9a223144810800000000000000
-      internalID: 1748543594927815141
+      spriteID: dde97bd61bf6564d0800000000000000
+      internalID: -3141982357180408099
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_5
+      name: walking1_5
       rect:
         serializedVersion: 2
         x: 32
@@ -254,14 +254,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fa39bb0f33290020800000000000000
-      internalID: 2308415037690690295
+      spriteID: 9d874b97c9bc58310800000000000000
+      internalID: 1406754331540355289
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_6
+      name: walking1_6
       rect:
         serializedVersion: 2
         x: 64
@@ -275,14 +275,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 030e743854ba71420800000000000000
-      internalID: 2600735624873369648
+      spriteID: aeda6f065666cb760800000000000000
+      internalID: 7474962067132689898
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 09_7
+      name: walking1_7
       rect:
         serializedVersion: 2
         x: 96
@@ -296,8 +296,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4edf2c6cc6db2b720800000000000000
-      internalID: 2860556988222471652
+      spriteID: 27884e38679638dc0800000000000000
+      internalID: -3637948116245378958
       vertices: []
       indices: 
       edges: []

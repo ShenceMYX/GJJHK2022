@@ -15,11 +15,12 @@ namespace ns
         private GameObject[] playerGOs;
         public Grid initialRoom;
 
+        public Vector3 playerInitialPos { get; set; }
+
         private void OnEnable()
         {
             TilemapSwapper.Instance.SelectTilemaps(initialRoom);
             TilemapSwapper.Instance.InitializeTilemap();
-
 
             playerGOs = new GameObject[2];
             int index = 0;
@@ -27,7 +28,12 @@ namespace ns
             {
                 playerGOs[index++] = player.gameObject;
             }
+
+            playerInitialPos = playerGOs[0].transform.position;
+
             playerGOs[0].SetActive(false);
+            playerGOs[1].SetActive(false);
+            playerGOs[1].SetActive(true);
         }
 
         private void Update()
@@ -64,7 +70,7 @@ namespace ns
             TilemapSwapper.Instance.InitializeTilemap();
             foreach (var player in playerGOs)
             {
-                player.GetComponent<CharacterMotor>().ResetPos();
+                player.GetComponent<CharacterMotor>().ResetPos(playerInitialPos);
 
                 player.GetComponent<CharacterInputController>().ResetFacingDir();
             }

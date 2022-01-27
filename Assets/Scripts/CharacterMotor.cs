@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,16 +10,28 @@ namespace ns
 	/// </summary>
 	public class CharacterMotor : MonoBehaviour
 	{
-        private Vector2 initialPos;
+        public float walkSpeed = 5f;
+        public Vector3 target;
+        private Animator anim;
+        public bool reachTarget = true;
+
+        public event Action onArrivalHandler;
 
         private void Awake()
         {
-            initialPos = transform.position;    
+            target = transform.position;
+            anim = GetComponentInChildren<Animator>();
+        }
+
+        private void Update()
+        {
+            reachTarget = Vector3.Distance(target, transform.position) < 0.01f;
         }
 
         public void Movement(Vector2 dir)
         {
-			RaycastHit2D ray;
+
+            RaycastHit2D ray;
 			Vector2 pos = new Vector2(transform.position.x, transform.position.y);
 			Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.25f);
 
@@ -28,19 +41,40 @@ namespace ns
                 pos += dir;
             }
 
-            transform.position = pos;
-		}
+            target = pos;
+            StartCoroutine(MoveTowardTarget());
 
-        public void ResetPos()
+            onArrivalHandler?.Invoke();
+        }
+
+        private IEnumerator MoveTowardTarget()
         {
-            transform.position = initialPos;
+            anim.SetBool("walk", true);
+            reachTarget = false;
+            Debug.Log("walking!!!  " +(target.x-transform.position.x));
+            while (!reachTarget)
+            {
+                Vector3 tar = Vector3.MoveTowards(transform.position, target, walkSpeed * Time.deltaTime);
+                transform.position = tar;
+
+                yield return null;
+            }
+            transform.position = target;
+            anim.SetBool("walk", false);
+        }
+
+        public void ResetPos(Vector3 pos)
+        {
+            transform.position = pos;
         }
 
         void OnDrawGizmos()
 		{
-			Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
-			Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x - 1, colliderCenterPos.y));
-		}
-	}
+            //Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
+            //Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x - 1, colliderCenterPos.y));
+            Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y);
+            Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x + 20, colliderCenterPos.y));
+        }
+    }
 
 }

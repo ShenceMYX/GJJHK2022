@@ -38,7 +38,6 @@ namespace Common
         private void OnDisableGameObject()
         {
             this.gameObject.SetActive(false);
-            SceneManager.LoadScene(1);
         }
     }
 }
