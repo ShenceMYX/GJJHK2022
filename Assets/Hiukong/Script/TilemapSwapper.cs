@@ -623,6 +623,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 if(pair.Value == tilemapRoot.name)
                 {
                     currentList = tilemapDict[pair.Key];
+                    currentList.Clear();
                     for (int j = 0; j < tilemapRoot.childCount; j++)
                     {
                         currentList.Add(tilemapRoot.GetChild(j).GetComponent<Tilemap>());
@@ -1023,7 +1024,7 @@ public class TilemapCanvasPool
         {
             canvasRoot = new GameObject("tilemapCanvas").transform;
         }
-        canvasRoot.parent = grid.transform;
+        canvasRoot.parent = grid.transform.parent.transform;
         Grid old = this.grid;
         this.grid = grid;
 
