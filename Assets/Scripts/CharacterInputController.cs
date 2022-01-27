@@ -61,6 +61,7 @@ namespace ns
                         isFlashlightOpened = false;
                         anim.SetBool("flashlight", false);
                     }
+
                     if (motor.reachTarget)
                     {
                         startPressTime += Time.deltaTime;

@@ -58,6 +58,7 @@ namespace ns
 			//初始化地图和玩家位置
 			MapController.Instance.playerInitialPos = nearestBornPoint;
 			MapController.Instance.ResetMapAndPlayerPos();
+            
 
             foreach (var levelTF in allLevelsTrans)
             {

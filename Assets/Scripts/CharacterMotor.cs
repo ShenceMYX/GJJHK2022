@@ -30,7 +30,6 @@ namespace ns
 
         public void Movement(Vector2 dir)
         {
-
             RaycastHit2D ray;
 			Vector2 pos = new Vector2(transform.position.x, transform.position.y);
 			Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.25f);
@@ -51,7 +50,6 @@ namespace ns
         {
             anim.SetBool("walk", true);
             reachTarget = false;
-            Debug.Log("walking!!!  " +(target.x-transform.position.x));
             while (!reachTarget)
             {
                 Vector3 tar = Vector3.MoveTowards(transform.position, target, walkSpeed * Time.deltaTime);
@@ -66,6 +64,7 @@ namespace ns
         public void ResetPos(Vector3 pos)
         {
             transform.position = pos;
+            target = pos;
         }
 
         void OnDrawGizmos()
