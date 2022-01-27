@@ -940,7 +940,7 @@ public class TilemapSwapperEditor: Editor
             Vector3 pos = grid.CellToWorld(cell);
             Handles.DrawWireCube(new Vector3(pos.x + tilemap.cellSize.x / 2,
                     pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), tilemap.cellSize);
-            Handles.Label(new Vector3(upleft.x, upleft.y + tilemap.cellSize.y, 0), "Current Size: " + "(" + pos.x + "," + pos.y + ")");
+            Handles.Label(new Vector3(mousePosition.x, mousePosition.y + tilemap.cellSize.y, 0), "Current Tile: " + "(" + pos.x + "," + pos.y + ")");
         }
     }
 }
@@ -1151,46 +1151,6 @@ public class TilemapCanvasPool
         {
             SetTile(i, position, tilemaps[i], entityPos);
         }
-        /*
-        for (int i = 0; i < tilemaps.Count; i++)
-        {
-            TilemapFlag tf = tilemaps[i].GetComponent<TilemapFlag>();
-            if(tf != null)
-            {
-                if (tf.IsTwoTileHigh)
-                {
-                    TileBase a = tilemaps[i].GetTile(position);
-                    TileBase b = tilemaps[i].GetTile(new Vector3Int(position.x, position.y, position.z));
-                    TileBase c = tilemapList[i].GetTile(position);
-                    TileBase d = tilemapList[i].GetTile(new Vector3Int(position.x, position.y + 1, position.z));
-                    if (a != null && b != null || c != null && d != null)
-                    {
-                        tilemapList[i].SetTile(position, tilemaps[i].GetTile(position));
-                        tilemapList[i].SetTile(new Vector3Int(position.x, position.y + 1, position.z),
-                            tilemaps[i].GetTile(new Vector3Int(position.x, position.y + 1, position.z)));
-                    }
-                }
-                else if (tf.IsDoors)
-                {
-                    if (tilemaps[i].GetTile(position) != null)   // it's a door
-                    {
-                        if (Math.Abs(entityPos.x - position.x) > 1 || Math.Abs(entityPos.y - position.y) > 1)
-                        {
-                            tilemapList[i].SetTile(position, tilemaps[i].GetTile(position));
-                        }
-                        else
-                        {
-                            tilemapList[i].SetTile(position, null);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                tilemapList[i].SetTile(position, tilemaps[i].GetTile(position));
-            }
-        }
-        */
     }
 
     public Tile.ColliderType GetColliderType(int index, Vector3Int position)
