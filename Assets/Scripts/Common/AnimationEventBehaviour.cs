@@ -38,6 +38,8 @@ namespace Common
 
         private void OnDisableGameObject()
         {
+            MapController.Instance.ResetMapAndPlayerPos();
+            PlayerInstance.Instance.ResetPressCount();
             this.gameObject.SetActive(false);
         }
     }

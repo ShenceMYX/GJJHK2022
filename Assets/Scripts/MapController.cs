@@ -38,6 +38,7 @@ namespace ns
 
         private void Update()
         {
+            if (!PlayerInstance.Instance.canInput) return;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (!isCurrentTileMapA)

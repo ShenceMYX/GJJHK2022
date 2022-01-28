@@ -25,8 +25,11 @@ namespace ns
             //LoadNextLevel(new Vector3(-3.4f, 0, 0), new Vector2(1, 0));
         }
 
+        private Vector3 p;
+        private Vector2 d;
         public void LoadNextLevel(Vector3 pos, Vector2 dir)
         {
+            p = pos; d = dir;
             foreach (var levelTF in allLevelsTrans)
             {
                 levelTF.GetComponent<BoxCollider2D>().enabled = true;
@@ -42,8 +45,10 @@ namespace ns
             Grid grid = furthestRay.collider.transform.GetComponentInChildren<Grid>();
 
             TilemapSwapper.Instance.SelectTilemaps(grid);
-			//TilemapSwapper.Instance.SelectTilemapData(furthestRay.collider.transform.GetComponentInChildren<TilemapData>());
+            //TilemapSwapper.Instance.SelectTilemapData(furthestRay.collider.transform.GetComponentInChildren<TilemapData>());
 
+            //设置Cinemachine新房间的边界
+            CinemachineSwitcher.Instance.ResetVCamsConfiner(grid.GetComponent<PolygonCollider2D>());
 
 			//找到离玩家最近的出生点
 			Vector3 nearestBornPoint = bornPointsFather.GetChild(0).position;
@@ -55,7 +60,8 @@ namespace ns
                 }
             }
 
-            StartCoroutine(WaitInializePlayerPos(nearestBornPoint));
+            //StartCoroutine(WaitInializePlayerPos(nearestBornPoint));
+            MapController.Instance.playerInitialPos = nearestBornPoint;
 
             CinemachineSwitcher.Instance.TransformVCameras(dir * 20);
 
@@ -70,9 +76,16 @@ namespace ns
         {
             yield return new WaitForEndOfFrame();
             //初始化地图和玩家位置
-            MapController.Instance.playerInitialPos = nearestBornPoint;
-            MapController.Instance.ResetMapAndPlayerPos();
+           
 
+        }
+
+        void OnDrawGizmos()
+        {
+            //Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
+            //Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x - 1, colliderCenterPos.y));
+            Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y);
+            Gizmos.DrawLine(p, new Vector2(p.x,p.y)+d*20);
         }
     }
 }

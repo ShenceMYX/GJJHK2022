@@ -12,7 +12,10 @@ namespace ns
 	{
 		public GameObject dieMenu;
 		public GameObject waitingMenu;
-		public GameObject sceneTransitionUI;
+		public GameObject rightSceneTransitionUI;
+		public GameObject leftSceneTransitionUI;
+		public GameObject downSceneTransitionUI;
+		public GameObject upSceneTransitionUI;
 
 		public void PauseGame()
         {
@@ -42,10 +45,19 @@ namespace ns
 			waitingMenu.SetActive(false);
 		}
 
-		public void PlaySceneTransition()
+		public void PlaySceneTransition(Vector2 dir)
         {
-			sceneTransitionUI.SetActive(true);
+			if (dir == new Vector2(-1, 0))
+				leftSceneTransitionUI.SetActive(true);
+			else if (dir == new Vector2(1, 0))
+				rightSceneTransitionUI.SetActive(true);
+			else if (dir == new Vector2(0, -1))
+				upSceneTransitionUI.SetActive(true);
+			else if (dir == new Vector2(0, 1))
+				downSceneTransitionUI.SetActive(true);
         }
+
 		
+
 	}
 }

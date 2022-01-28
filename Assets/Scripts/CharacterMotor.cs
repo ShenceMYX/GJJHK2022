@@ -66,14 +66,7 @@ namespace ns
             transform.position = pos;
             target = pos;
         }
-
-        void OnDrawGizmos()
-		{
-            //Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
-            //Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x - 1, colliderCenterPos.y));
-            Vector2 colliderCenterPos = new Vector2(transform.position.x, transform.position.y);
-            Gizmos.DrawLine(colliderCenterPos, new Vector2(colliderCenterPos.x + 20, colliderCenterPos.y));
-        }
+        
     }
 
 }
