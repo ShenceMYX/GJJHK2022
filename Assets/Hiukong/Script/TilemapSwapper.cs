@@ -1170,6 +1170,7 @@ public class TilemapCanvasPool
         go.AddComponent<TilemapCollider2D>().usedByComposite = true;
 
         go.transform.parent = parent;
+        go.transform.localPosition = Vector3.zero;
         return go.transform.GetComponent<Tilemap>();
     }
 
