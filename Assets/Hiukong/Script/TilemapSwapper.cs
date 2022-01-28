@@ -906,7 +906,7 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 {
                     Vector3 pos = grid.CellToWorld(new Vector3Int(i, j, 0));
                     Handles.Label(new Vector3(pos.x + tilemap.cellSize.x/8,
-                    pos.y + tilemap.cellSize.y/2, pos.z + tilemap.cellSize.z / 2), "(" + pos.x + "," + pos.y + ")");
+                    pos.y + tilemap.cellSize.y/2, pos.z + tilemap.cellSize.z / 2), "(" + i + "," + j + ")");
                 }
             }
         }
@@ -941,7 +941,7 @@ public class TilemapSwapperEditor: Editor
             Vector3 pos = grid.CellToWorld(cell);
             Handles.DrawWireCube(new Vector3(pos.x + tilemap.cellSize.x / 2,
                     pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), tilemap.cellSize);
-            Handles.Label(new Vector3(mousePosition.x, mousePosition.y + tilemap.cellSize.y, 0), "Current Tile: " + "(" + pos.x + "," + pos.y + ")");
+            Handles.Label(new Vector3(mousePosition.x, mousePosition.y + tilemap.cellSize.y, 0), "Current Tile: " + "(" + cell.x + "," + cell.y + ")");
         }
     }
 }
