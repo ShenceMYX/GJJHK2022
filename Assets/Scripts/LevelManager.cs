@@ -22,7 +22,7 @@ namespace ns
 				allLevelsTrans[i] = transform.GetChild(i);
             }
 
-            //LoadNextLevel(new Vector3(-3.4f, 0, 0), new Vector2(1, 0));
+            //LoadNextLevel(new Vector3(40-3.4f, 2, 0), new Vector2(1, 0));
         }
 
         private Vector3 p;
@@ -48,7 +48,7 @@ namespace ns
             //TilemapSwapper.Instance.SelectTilemapData(furthestRay.collider.transform.GetComponentInChildren<TilemapData>());
 
             //设置Cinemachine新房间的边界
-            CinemachineSwitcher.Instance.ResetVCamsConfiner(grid.GetComponent<PolygonCollider2D>());
+            CinemachineManager.Instance.ResetVCamsConfiner(grid.GetComponent<PolygonCollider2D>());
 
 			//找到离玩家最近的出生点
 			Vector3 nearestBornPoint = bornPointsFather.GetChild(0).position;
@@ -63,7 +63,7 @@ namespace ns
             //StartCoroutine(WaitInializePlayerPos(nearestBornPoint));
             MapController.Instance.playerInitialPos = nearestBornPoint;
 
-            CinemachineSwitcher.Instance.TransformVCameras(dir * 20);
+            CinemachineManager.Instance.TransformVCameras(dir * 20);
 
 
             foreach (var levelTF in allLevelsTrans)

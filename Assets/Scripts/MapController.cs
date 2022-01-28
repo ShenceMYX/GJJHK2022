@@ -58,7 +58,7 @@ namespace ns
                     CheckIfOnWall(TilemapSwapper.Entity.B);
                 }
                 isCurrentTileMapA = !isCurrentTileMapA;
-                CinemachineSwitcher.Instance.SwitchVCamPriority(isCurrentTileMapA);
+                CinemachineManager.Instance.SwitchVCamPriority(isCurrentTileMapA);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
