@@ -44,6 +44,7 @@ namespace ns
 
         private void Update()
         {
+            if (!PlayerInstance.Instance.canInput) return;
             MovementControlDetection();
             FlashlightControlDetection();
         }
@@ -152,7 +153,6 @@ namespace ns
 
         private void OnPlayerMove()
         {
-            Debug.Log("onplayermove");
             //CheckPortal();
             //CheckDoor();
         }

@@ -22,7 +22,7 @@ namespace ns
 				allLevelsTrans[i] = transform.GetChild(i);
             }
 
-            LoadNextLevel(new Vector3(-3.4f, 0, 0), new Vector2(1, 0));
+            //LoadNextLevel(new Vector3(-3.4f, 0, 0), new Vector2(1, 0));
         }
 
         public void LoadNextLevel(Vector3 pos, Vector2 dir)
@@ -55,15 +55,24 @@ namespace ns
                 }
             }
 
-			//初始化地图和玩家位置
-			MapController.Instance.playerInitialPos = nearestBornPoint;
-			MapController.Instance.ResetMapAndPlayerPos();
-            
+            StartCoroutine(WaitInializePlayerPos(nearestBornPoint));
+
+            CinemachineSwitcher.Instance.TransformVCameras(dir * 20);
+
 
             foreach (var levelTF in allLevelsTrans)
             {
                 levelTF.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
-	}
+
+        private IEnumerator WaitInializePlayerPos(Vector3 nearestBornPoint)
+        {
+            yield return new WaitForEndOfFrame();
+            //初始化地图和玩家位置
+            MapController.Instance.playerInitialPos = nearestBornPoint;
+            MapController.Instance.ResetMapAndPlayerPos();
+
+        }
+    }
 }
