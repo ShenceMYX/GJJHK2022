@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Common;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace ns
@@ -11,11 +12,13 @@ namespace ns
 	/// </summary>
 	public class MapController : MonoSingleton<MapController>
 	{
-        private bool isCurrentTileMapA = true;
+        public bool isCurrentTileMapA { get; private set; } = true;
         private GameObject[] playerGOs;
         public Grid initialRoom;
 
         public Vector3 playerInitialPos { get; set; }
+
+        public MMFeedbacks worldTransFeedbacks;
 
         private void OnEnable()
         {
@@ -59,6 +62,7 @@ namespace ns
                 }
                 isCurrentTileMapA = !isCurrentTileMapA;
                 CinemachineManager.Instance.SwitchVCamPriority(isCurrentTileMapA);
+                worldTransFeedbacks?.PlayFeedbacks();
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))

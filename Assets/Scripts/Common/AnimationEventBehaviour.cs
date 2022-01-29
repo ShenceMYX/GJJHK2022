@@ -40,6 +40,7 @@ namespace Common
         {
             MapController.Instance.ResetMapAndPlayerPos();
             PlayerInstance.Instance.ResetPressCount();
+            PlayerInstance.Instance.cantMove = false;
             this.gameObject.SetActive(false);
         }
     }

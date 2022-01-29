@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace ns
@@ -11,6 +12,9 @@ namespace ns
 	public class DoorDetector : MonoBehaviour
 	{
         //private TilemapSwapper.Entity entityType;
+        public MMFeedbacks waitingPromptFeedbacks;
+        public MMFeedbacks doorOpenFeedbacks;
+        public MMFeedbacks doorCloseFeedbacks;
 
         private void OnEnable()
         {
@@ -27,13 +31,18 @@ namespace ns
             {
                 if (TilemapSwapper.Instance.GetOffsetTileType(otherEntityType, new Vector2Int((int)direction.x, (int)direction.y)) != TilemapSwapper.TileType.DOOR)
                 {
-                    MenuController.Instance.ShowWaitingUI();
+                    if (!MenuController.Instance.waitingMenu.activeInHierarchy)
+                    {
+                        MenuController.Instance.ShowWaitingUI();
+                        waitingPromptFeedbacks?.PlayFeedbacks();
+                    }
                     return false;
                 }
                 else
                 {
                     //在地图未加载完（转场动画未播放完）之前不让玩家乱操作
-                    //PlayerInstance.Instance.canInput = false;
+                    PlayerInstance.Instance.cantMove = true;
+                    doorOpenFeedbacks?.PlayFeedbacks();
                     MenuController.Instance.CloseWaitingUI();
 
                     MenuController.Instance.PlaySceneTransition(direction);
@@ -44,7 +53,10 @@ namespace ns
             }
             else
             {
-                MenuController.Instance.CloseWaitingUI();
+                if (MenuController.Instance.waitingMenu.activeInHierarchy)
+                {
+                    MenuController.Instance.CloseWaitingUI();
+                }
                 return true;
             }
         }

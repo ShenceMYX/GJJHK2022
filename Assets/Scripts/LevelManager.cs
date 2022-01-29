@@ -14,6 +14,8 @@ namespace ns
 		public float raycastDistance = 20f;
 		public LayerMask levelLayer;
 
+        public Grid Grid;
+
         private void Start()
         {
 			allLevelsTrans = new Transform[transform.childCount];
@@ -22,7 +24,10 @@ namespace ns
 				allLevelsTrans[i] = transform.GetChild(i);
             }
 
-            LoadNextLevel(new Vector3(20-3.4f, 2, 0), new Vector2(1, 0));
+            TilemapSwapper.Instance.SelectTilemaps(Grid);
+            CinemachineManager.Instance.ResetVCamsConfiner(Grid.GetComponent<PolygonCollider2D>());
+            CinemachineManager.Instance.TransformVCameras(new Vector3(34,2,0));
+            //LoadNextLevel(new Vector3(20-3.4f, 2, 0), new Vector2(1, 0));
         }
 
         private Vector3 p;
