@@ -412,7 +412,6 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         for(int i = 0; i < swappedTo.Count; i++)
         {
             bounds = swappedTo[i].cellBounds;
-            //Debug.Log("" + i + " : " + bounds.xMin + ", " + bounds.xMax + "\n" + bounds.yMin + ", " + bounds.yMax);
             for (int j = bounds.xMin; j <= bounds.xMax; j++)
             {
                 for (int k = bounds.yMin; k <= bounds.yMax; k++)
@@ -778,6 +777,18 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         return tilemapData.IsDoorLocation(entity, (Vector2Int)grid.WorldToCell(pos));
     }
 
+    private bool isOffsetTileTwoTileHigh(Entity entity, Vector2Int offset)
+    {
+        Transform ent = entity == Entity.A ? entityDetectCenterA : entityDetectCenterB;
+        Vector3 pos = new Vector3(ent.position.x + offset.x, ent.position.y + offset.y, ent.position.z);
+        bool res = false;
+        for (int i = 0; i < initialTilemaps.Count; i++)
+        {
+            res |= tilemapCanvasPool.GetTilemapList()[i].GetComponent<TilemapFlag>().IsTwoTileHigh;
+        }
+        return res;
+    }
+
 
     private HashSet<Vector2Int> offsetWallTest(Entity entity, Vector2Int[] offsets)
     {
@@ -828,8 +839,16 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
                 {
                     if (!lowerWall.ContainsKey(offset.x))
                     {
-                        lowerWall[offset.x] = offset.y;
                         // don't add lower wall
+                        // but if it's in two tile high layer
+                        if(isOffsetTileTwoTileHigh(entity, offset))
+                        {
+                            processedOffsets.Add(offset);
+                        }
+                        else
+                        {
+                            lowerWall[offset.x] = offset.y;
+                        }
                     }
                 }
                 else
@@ -1085,6 +1104,15 @@ public class TilemapCanvasPool
         tr.sortingLayerName = tr_.sortingLayerName;
         tr.sortingLayerID = tr_.sortingLayerID;
         tr.sharedMaterial = tr_.material;
+        TilemapFlag tf = tilemap.GetComponent<TilemapFlag>();
+        if(tf != null)
+        {
+            tilemapList[index].GetComponent<TilemapFlag>().CopyFlag(tf);
+        }
+        else
+        {
+            tilemapList[index].GetComponent<TilemapFlag>().ClearFlag();
+        }
     }
 
     public void SetTile(int index, Vector3Int position, Tilemap tilemap, Vector3Int entityPos)
@@ -1158,6 +1186,11 @@ public class TilemapCanvasPool
         return tilemapList[index].GetColliderType(position);
     }
 
+    public List<Tilemap> GetTilemapList()
+    {
+        return tilemapList;
+    }
+
     private Tilemap createTilemapObject(Transform parent, int count)
     {
         GameObject go = new GameObject("tilemap (" + count + ")");
@@ -1166,6 +1199,7 @@ public class TilemapCanvasPool
         go.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         go.AddComponent<CompositeCollider2D>();
         go.AddComponent<TilemapCollider2D>().usedByComposite = true;
+        go.AddComponent<TilemapFlag>().ClearFlag();
 
         go.transform.parent = parent;
         go.transform.localPosition = Vector3.zero;
