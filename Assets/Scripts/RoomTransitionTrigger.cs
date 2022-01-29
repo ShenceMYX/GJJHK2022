@@ -13,7 +13,6 @@ namespace ns
         {
             if (collision.CompareTag("Player"))
             {
-                Debug.Log("?????????");
                 TilemapSwapper.Instance.SelectTilemaps(transform.root.GetComponent<Grid>(), TilemapSwapper.Entity.A);
             }
         }

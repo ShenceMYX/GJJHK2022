@@ -18533,20 +18533,20 @@ CompositeCollider2D:
   m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
-    - - {x: 4.999971, y: -1}
-      - {x: 4.999971, y: 1}
-      - {x: 2, y: 0.99997073}
-      - {x: 2.0000293, y: -1}
-    - - {x: 0.99997073, y: -1}
-      - {x: 0.99997073, y: 1}
-      - {x: 0, y: 0.99997073}
-      - {x: 0.000029300001, y: -1}
     - - {x: -1.0000293, y: -1}
       - {x: -1.0000076, y: 0.4062576}
       - {x: -1.0625108, y: 0.46875}
       - {x: -1.9687576, y: 0.4687424}
       - {x: -2, y: 0.4374892}
       - {x: -1.9999708, y: -1}
+    - - {x: 4.999971, y: -1}
+      - {x: 4.999971, y: 0}
+      - {x: 2, y: -0.000029300001}
+      - {x: 2.0000293, y: -1}
+    - - {x: 0.99997073, y: -1}
+      - {x: 0.99997073, y: 0}
+      - {x: 0, y: -0.000029300001}
+      - {x: 0.000029300001, y: -1}
     - - {x: 2.999971, y: -3}
       - {x: 2.999971, y: -2}
       - {x: -1, y: -2.0000293}
@@ -18863,7 +18863,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       m_AllTileFlags: 1
-  - first: {x: 7, y: 3, z: 0}
+  - first: {x: 2, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 8
@@ -18872,7 +18872,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       m_AllTileFlags: 1
-  - first: {x: 8, y: 3, z: 0}
+  - first: {x: 3, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 8
@@ -18881,7 +18881,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       m_AllTileFlags: 1
-  - first: {x: -9, y: 4, z: 0}
+  - first: {x: 4, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 8
@@ -18889,8 +18889,7 @@ Tilemap:
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
-<<<<<<< Updated upstream
-      m_AllTileFlags: 2147483649
+      m_AllTileFlags: 1
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
@@ -20020,7 +20019,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &935502882
+--- !u!1 &1389116003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1389116005}
+  - component: {fileID: 1389116008}
+  - component: {fileID: 1389116007}
+  - component: {fileID: 1389116006}
+  - component: {fileID: 1389116004}
+  m_Layer: 0
+  m_Name: Player2
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1389116004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389116003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d160c69fde748a7beed4b8a9bc8128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1389116005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389116003}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1163359350}
+  - {fileID: 697816823}
+  m_Father: {fileID: 1715492253}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1389116006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20029,7 +20076,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 935502880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 36419258314d24f74880bb888c087aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -20087,6 +20134,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57ee6e8f78ab41d790d7a3e82679428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  walkSpeed: 5
+  target: {x: 0, y: 0, z: 0}
+  reachTarget: 1
 --- !u!114 &1389116008
 MonoBehaviour:
 =======
@@ -20116,12 +20166,18 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935502880}
-  m_CullTransparentMesh: 0
---- !u!1 &1036115754
-=======
---- !u!1 &422784303
->>>>>>> Stashed changes
+  m_GameObject: {fileID: 1389116003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bb093cd7e0e4b49a0d3e2a16e0037e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementKeys: 61000000640000007700000073000000
+  entityType: 1
+  facingDirection: 1
+  flashlightKey: 304
+  pressDuration: 1
+--- !u!1 &1405579980
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22299,6 +22355,7 @@ GameObject:
   - component: {fileID: 1525085964}
   - component: {fileID: 1525085963}
   - component: {fileID: 1525085962}
+  - component: {fileID: 1525085960}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -22306,6 +22363,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1525085960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525085959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d160c69fde748a7beed4b8a9bc8128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1525085961
 Transform:
   m_ObjectHideFlags: 0
@@ -22331,7 +22400,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1525085959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4adb12505558d483e9d075c5771a41c1, type: 3}
+  m_Script: {fileID: 11500000, guid: 36419258314d24f74880bb888c087aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1525085963
@@ -22346,6 +22415,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57ee6e8f78ab41d790d7a3e82679428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  walkSpeed: 5
+  target: {x: 0, y: 0, z: 0}
+  reachTarget: 1
 --- !u!114 &1525085964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22362,6 +22434,7 @@ MonoBehaviour:
   entityType: 0
   facingDirection: 1
   flashlightKey: 304
+  pressDuration: 1
 --- !u!1 &1571959324
 GameObject:
   m_ObjectHideFlags: 0
@@ -22962,7 +23035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eae426f57b48004184fe8c65ebc65b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDrawCurrentCellPos: 0
+  IsDrawCurrentCellPos: 1
   IsDrawCellCoordinates: 1
   CellCoordinateRange: {x: 10, y: 10}
   grid: {fileID: 2090380539}

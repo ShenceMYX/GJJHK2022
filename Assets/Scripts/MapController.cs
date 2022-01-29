@@ -38,6 +38,7 @@ namespace ns
 
         private void Update()
         {
+            if (!PlayerInstance.Instance.canInput) return;
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (!isCurrentTileMapA)
@@ -57,7 +58,7 @@ namespace ns
                     CheckIfOnWall(TilemapSwapper.Entity.B);
                 }
                 isCurrentTileMapA = !isCurrentTileMapA;
-                CinemachineSwitcher.Instance.SwitchVCamPriority(isCurrentTileMapA);
+                CinemachineManager.Instance.SwitchVCamPriority(isCurrentTileMapA);
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))

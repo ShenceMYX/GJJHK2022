@@ -22,6 +22,7 @@ namespace ns
         private bool CheckDoor(TilemapSwapper.Entity entityType, Vector2 direction)
         {
             TilemapSwapper.Entity otherEntityType = entityType == TilemapSwapper.Entity.A ? TilemapSwapper.Entity.B : TilemapSwapper.Entity.A;
+            //Debug.Log(TilemapSwapper.Instance.GetOffsetTileType(entityType, new Vector2Int((int)direction.x, (int)direction.y)));
             if (TilemapSwapper.Instance.GetOffsetTileType(entityType, new Vector2Int((int)direction.x, (int)direction.y)) == TilemapSwapper.TileType.DOOR)
             {
                 if (TilemapSwapper.Instance.GetOffsetTileType(otherEntityType, new Vector2Int((int)direction.x, (int)direction.y)) != TilemapSwapper.TileType.DOOR)
@@ -31,8 +32,11 @@ namespace ns
                 }
                 else
                 {
+                    //在地图未加载完（转场动画未播放完）之前不让玩家乱操作
+                    //PlayerInstance.Instance.canInput = false;
                     MenuController.Instance.CloseWaitingUI();
-                    MenuController.Instance.PlaySceneTransition();
+
+                    MenuController.Instance.PlaySceneTransition(direction);
                     LevelManager.Instance.LoadNextLevel(transform.position, direction);
                     return true;
                 }

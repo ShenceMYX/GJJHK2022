@@ -24,7 +24,7 @@ namespace ns
 
         private float startPressTime;
         public float pressDuration = 1f;
-        private int pressCount = 0;
+        public int pressCount = 0;
         private float lastPressTime;
 
         public event Func<TilemapSwapper.Entity, Vector2, bool> isAboutToMoveHandler;
@@ -44,6 +44,7 @@ namespace ns
 
         private void Update()
         {
+            if (!PlayerInstance.Instance.canInput) return;
             MovementControlDetection();
             FlashlightControlDetection();
         }
@@ -152,7 +153,6 @@ namespace ns
 
         private void OnPlayerMove()
         {
-            Debug.Log("onplayermove");
             //CheckPortal();
             //CheckDoor();
         }

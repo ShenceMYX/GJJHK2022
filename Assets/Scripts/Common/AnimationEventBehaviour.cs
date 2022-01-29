@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ns;
 
 namespace Common
 {
@@ -37,6 +38,8 @@ namespace Common
 
         private void OnDisableGameObject()
         {
+            MapController.Instance.ResetMapAndPlayerPos();
+            PlayerInstance.Instance.ResetPressCount();
             this.gameObject.SetActive(false);
         }
     }
