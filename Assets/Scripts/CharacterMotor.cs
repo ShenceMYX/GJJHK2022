@@ -41,9 +41,10 @@ namespace ns
             }
 
             target = pos;
-            StartCoroutine(MoveTowardTarget());
 
-            onArrivalHandler?.Invoke();
+            if(!ray.collider)
+                StartCoroutine(MoveTowardTarget());
+
         }
 
         private IEnumerator MoveTowardTarget()
@@ -54,11 +55,12 @@ namespace ns
             {
                 Vector3 tar = Vector3.MoveTowards(transform.position, target, walkSpeed * Time.deltaTime);
                 transform.position = tar;
-
+                Debug.Log("walking!");
                 yield return null;
             }
             transform.position = target;
             anim.SetBool("walk", false);
+            onArrivalHandler?.Invoke();
         }
 
         public void ResetPos(Vector3 pos)
