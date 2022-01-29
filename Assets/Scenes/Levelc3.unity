@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2306,7 +2306,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dieMenu: {fileID: 1362550014}
   waitingMenu: {fileID: 1072509562}
-  sceneTransitionUI: {fileID: 426539121}
+  rightSceneTransitionUI: {fileID: 0}
+  leftSceneTransitionUI: {fileID: 0}
+  downSceneTransitionUI: {fileID: 0}
+  upSceneTransitionUI: {fileID: 0}
 --- !u!114 &215089512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8180,9 +8183,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 577472252}
-    m_ColliderPaths: []
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -9949,69 +9950,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 645950776}
-    m_ColliderPaths:
-    - - X: 0
-        Y: 34062500
-      - X: -625000
-        Y: 34687500
-      - X: -9687500
-        Y: 34687500
-      - X: -10000000
-        Y: 34375000
-      - X: -10000000
-        Y: 30000000
-      - X: 0
-        Y: 30000000
-    - - X: -10000000
-        Y: 24062500
-      - X: -10625000
-        Y: 24687500
-      - X: -19687500
-        Y: 24687500
-      - X: -20000000
-        Y: 24375000
-      - X: -20000000
-        Y: 20000000
-      - X: -10000000
-        Y: 20000000
-    - - X: 40000000
-        Y: 24062500
-      - X: 39375000
-        Y: 24687500
-      - X: 30312500
-        Y: 24687500
-      - X: 30000000
-        Y: 24375000
-      - X: 30000000
-        Y: 20000000
-      - X: 40000000
-        Y: 20000000
-    - - X: 70000000
-        Y: 14062500
-      - X: 69375000
-        Y: 14687500
-      - X: 60312500
-        Y: 14687500
-      - X: 60000000
-        Y: 14375000
-      - X: 60000000
-        Y: 10000000
-      - X: 70000000
-        Y: 10000000
-    - - X: 50000000
-        Y: -35937500
-      - X: 49375000
-        Y: -35312500
-      - X: 40312500
-        Y: -35312500
-      - X: 40000000
-        Y: -35625000
-      - X: 40000000
-        Y: -40000000
-      - X: 50000000
-        Y: -40000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: -0.000029300001, y: 3}
@@ -11625,25 +11564,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 709066237}
-    m_ColliderPaths:
-    - - X: -70000000
-        Y: 60000000
-      - X: -80000000
-        Y: 60000000
-      - X: -80000000
-        Y: 40000000
-      - X: -70000000
-        Y: 40000000
-    - - X: 80000000
-        Y: -40000000
-      - X: 70000000
-        Y: -40000000
-      - X: 70000000
-        Y: -60000000
-      - X: 80000000
-        Y: -60000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: -7.0000296, y: 4}
@@ -12152,9 +12073,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 803714616}
-    m_ColliderPaths: []
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -18472,173 +18391,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1264642053}
-    m_ColliderPaths:
-    - - X: 40000000
-        Y: 20000000
-      - X: 40000000
-        Y: 24062500
-      - X: 39375000
-        Y: 24687500
-      - X: 30312500
-        Y: 24687500
-      - X: 30000000
-        Y: 24375000
-      - X: 30000000
-        Y: 50000000
-      - X: 20000000
-        Y: 50000000
-      - X: 20000000
-        Y: 20000000
-      - X: 30000000
-        Y: 20000000
-      - X: 30000000
-        Y: 10000000
-      - X: 50000000
-        Y: 10000000
-      - X: 50000000
-        Y: -10000000
-      - X: 40000000
-        Y: -10000000
-      - X: 40000000
-        Y: -50000000
-      - X: 60000000
-        Y: -50000000
-      - X: 60000000
-        Y: -10000000
-      - X: 70000000
-        Y: -10000000
-      - X: 70000000
-        Y: 14062500
-      - X: 69375000
-        Y: 14687500
-      - X: 60312500
-        Y: 14687500
-      - X: 60000000
-        Y: 14375000
-      - X: 60000000
-        Y: 10000000
-      - X: 50000000
-        Y: 10000000
-      - X: 50000000
-        Y: 20000000
-    - - X: -10000000
-        Y: -20000000
-      - X: -20000000
-        Y: -20000000
-      - X: -20000000
-        Y: -10000000
-      - X: -10000000
-        Y: -10000000
-      - X: -10000000
-        Y: 0
-      - X: -30000000
-        Y: 0
-      - X: -30000000
-        Y: 50000000
-      - X: -40000000
-        Y: 50000000
-      - X: -40000000
-        Y: 10000000
-      - X: -50000000
-        Y: 10000000
-      - X: -50000000
-        Y: 20000000
-      - X: -70000000
-        Y: 20000000
-      - X: -70000000
-        Y: 10000000
-      - X: -60000000
-        Y: 10000000
-      - X: -60000000
-        Y: 0
-      - X: -40000000
-        Y: 0
-      - X: -40000000
-        Y: -10000000
-      - X: -30000000
-        Y: -10000000
-      - X: -30000000
-        Y: -20000000
-      - X: -40000000
-        Y: -20000000
-      - X: -40000000
-        Y: -30000000
-      - X: -10000000
-        Y: -30000000
-    - - X: 0
-        Y: 10000000
-      - X: 10000000
-        Y: 10000000
-      - X: 10000000
-        Y: 20000000
-      - X: 0
-        Y: 20000000
-      - X: 0
-        Y: 34062500
-      - X: -625000
-        Y: 34687500
-      - X: -9687500
-        Y: 34687500
-      - X: -10000000
-        Y: 34375000
-      - X: -10000000
-        Y: 24062500
-      - X: -10625000
-        Y: 24687500
-      - X: -19687500
-        Y: 24687500
-      - X: -20000000
-        Y: 24375000
-      - X: -20000000
-        Y: 10000000
-      - X: -10000000
-        Y: 10000000
-      - X: -10000000
-        Y: 0
-      - X: 0
-        Y: 0
-    - - X: 30000000
-        Y: 10000000
-      - X: 20000000
-        Y: 10000000
-      - X: 20000000
-        Y: -50000000
-      - X: 30000000
-        Y: -50000000
-    - - X: 10000000
-        Y: 0
-      - X: 0
-        Y: 0
-      - X: 0
-        Y: -10000000
-      - X: 10000000
-        Y: -10000000
-    - - X: -60000000
-        Y: -10000000
-      - X: -70000000
-        Y: -10000000
-      - X: -70000000
-        Y: -20000000
-      - X: -60000000
-        Y: -20000000
-    - - X: -50000000
-        Y: -30000000
-      - X: -60000000
-        Y: -30000000
-      - X: -60000000
-        Y: -50000000
-      - X: -50000000
-        Y: -50000000
-    - - X: 10000000
-        Y: -40000000
-      - X: -10000000
-        Y: -40000000
-      - X: -10000000
-        Y: -50000000
-      - X: 10000000
-        Y: -50000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 4.999971, y: 1}
@@ -22040,6 +21793,7 @@ MonoBehaviour:
   facingDirection: 1
   flashlightKey: 304
   pressDuration: 1
+  pressCount: 0
 --- !u!1 &1406344849
 GameObject:
   m_ObjectHideFlags: 0
@@ -26529,6 +26283,7 @@ MonoBehaviour:
   facingDirection: 1
   flashlightKey: 304
   pressDuration: 1
+  pressCount: 0
 --- !u!1 &1547089056
 GameObject:
   m_ObjectHideFlags: 0
@@ -30851,33 +30606,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1995166716}
-    m_ColliderPaths:
-    - - X: 80000000
-        Y: 60000000
-      - X: -70000000
-        Y: 60000000
-      - X: -70000000
-        Y: 50000000
-      - X: 70000000
-        Y: 50000000
-      - X: 70000000
-        Y: -40000000
-      - X: 80000000
-        Y: -40000000
-    - - X: 70000000
-        Y: -50000000
-      - X: -70000000
-        Y: -50000000
-      - X: -70000000
-        Y: 40000000
-      - X: -80000000
-        Y: 40000000
-      - X: -80000000
-        Y: -60000000
-      - X: 70000000
-        Y: -60000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 7.9999704, y: -4}
@@ -32233,7 +31962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2066082456
 Transform:
   m_ObjectHideFlags: 0
