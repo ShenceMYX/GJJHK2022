@@ -408,14 +408,14 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
         List<Tilemap> tilemapChangedCurrent = entity == Entity.A ? changingTilemapsA : changingTilemapsB;
         List<Tilemap> tilemapChangedOther = entity == Entity.A ? changingTilemapsB_ShownInA : changingTilemapsA_ShownInB;
 
-
         tilemapCanvasPool.ClearTilemap();
         for(int i = 0; i < swappedTo.Count; i++)
         {
             bounds = swappedTo[i].cellBounds;
-            for (int j = bounds.xMin; j < bounds.xMax; j++)
+            //Debug.Log("" + i + " : " + bounds.xMin + ", " + bounds.xMax + "\n" + bounds.yMin + ", " + bounds.yMax);
+            for (int j = bounds.xMin; j <= bounds.xMax; j++)
             {
-                for (int k = bounds.yMin; k < bounds.yMax; k++)
+                for (int k = bounds.yMin; k <= bounds.yMax; k++)
                 {
                     vec3.Set(j, k, 0);
                     vec2.Set(j, k);
@@ -1096,9 +1096,7 @@ public class TilemapCanvasPool
             {
                 TileBase a = tilemap.GetTile(position);
                 TileBase b = tilemap.GetTile(new Vector3Int(position.x, position.y + 1, position.z));
-                TileBase c = tilemapList[index].GetTile(position);
-                TileBase d = tilemapList[index].GetTile(new Vector3Int(position.x, position.y + 1, position.z));
-                if(a != null && b != null || c != null && d != null)
+                if(a != null && b != null)
                 {
                     tilemapList[index].SetTile(position, tilemap.GetTile(position));
                     tilemapList[index].SetTile(new Vector3Int(position.x, position.y + 1, position.z),
