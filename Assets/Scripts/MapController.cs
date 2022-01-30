@@ -34,9 +34,9 @@ namespace ns
 
             playerInitialPos = playerGOs[0].transform.position;
 
-            playerGOs[0].SetActive(false);
             playerGOs[1].SetActive(false);
-            playerGOs[1].SetActive(true);
+            playerGOs[0].SetActive(false);
+            playerGOs[0].SetActive(true);
         }
 
         private void Update()
@@ -48,16 +48,16 @@ namespace ns
                 {
                     TilemapSwapper.Instance.SwapTilemap(TilemapSwapper.Entity.A);
 
-                    playerGOs[1].SetActive(true);
-                    playerGOs[0].SetActive(false);
+                    playerGOs[0].SetActive(true);
+                    playerGOs[1].SetActive(false);
                     CheckIfOnWall(TilemapSwapper.Entity.A);
                 }
                 else
                 {
                     TilemapSwapper.Instance.SwapTilemap(TilemapSwapper.Entity.B);
                    
-                    playerGOs[1].SetActive(false);
-                    playerGOs[0].SetActive(true);
+                    playerGOs[0].SetActive(false);
+                    playerGOs[1].SetActive(true);
                     CheckIfOnWall(TilemapSwapper.Entity.B);
                 }
                 isCurrentTileMapA = !isCurrentTileMapA;
@@ -83,8 +83,8 @@ namespace ns
 
             isCurrentTileMapA = true;
 
-            playerGOs[1].SetActive(true);
-            playerGOs[0].SetActive(false);
+            playerGOs[0].SetActive(true);
+            playerGOs[1].SetActive(false);
         }
 
         private void CheckIfOnWall(TilemapSwapper.Entity entityType)
