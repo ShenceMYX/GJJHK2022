@@ -26,9 +26,9 @@ namespace ns
 				allLevelsTrans[i] = transform.GetChild(i);
             }
 
-            TilemapSwapper.Instance.SelectTilemaps(Grid);
-            CinemachineManager.Instance.ResetVCamsConfiner(Grid.GetComponent<PolygonCollider2D>());
-            CinemachineManager.Instance.TransformVCameras(new Vector3(cameraPos.x, cameraPos.y, 0));
+            //TilemapSwapper.Instance.SelectTilemaps(Grid);
+            //CinemachineManager.Instance.ResetVCamsConfiner(Grid.GetComponent<PolygonCollider2D>());
+            //CinemachineManager.Instance.TransformVCameras(new Vector3(cameraPos.x, cameraPos.y, 0));
             //LoadNextLevel(new Vector3(20-3.4f, 2, 0), new Vector2(1, 0));
         }
 
