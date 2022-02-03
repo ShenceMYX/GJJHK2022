@@ -5006,7 +5006,7 @@ GameObject:
   - component: {fileID: 475647597}
   - component: {fileID: 475647598}
   m_Layer: 0
-  m_Name: right light
+  m_Name: RIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5173,7 +5173,7 @@ GameObject:
   - component: {fileID: 695490523}
   - component: {fileID: 695490524}
   m_Layer: 0
-  m_Name: up light
+  m_Name: UP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5460,7 +5460,7 @@ GameObject:
   - component: {fileID: 1064116532}
   - component: {fileID: 1064116533}
   m_Layer: 0
-  m_Name: right light
+  m_Name: RIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5541,7 +5541,7 @@ GameObject:
   - component: {fileID: 1196422250}
   - component: {fileID: 1196422251}
   m_Layer: 0
-  m_Name: left light
+  m_Name: LEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5622,7 +5622,7 @@ GameObject:
   - component: {fileID: 1244159598}
   - component: {fileID: 1244159599}
   m_Layer: 0
-  m_Name: left light
+  m_Name: LEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15345,7 +15345,7 @@ GameObject:
   - component: {fileID: 1383467932}
   - component: {fileID: 1383467933}
   m_Layer: 0
-  m_Name: down light
+  m_Name: DOWN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20433,7 +20433,7 @@ GameObject:
   - component: {fileID: 1851130340}
   - component: {fileID: 1851130341}
   m_Layer: 0
-  m_Name: down light
+  m_Name: DOWN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20632,7 +20632,7 @@ GameObject:
   - component: {fileID: 1935495143}
   - component: {fileID: 1935495144}
   m_Layer: 0
-  m_Name: up light
+  m_Name: UP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20895,7 +20895,7 @@ GameObject:
   - component: {fileID: 8408540453711684577}
   - component: {fileID: 8408540453711684576}
   m_Layer: 0
-  m_Name: left light
+  m_Name: LEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26102,7 +26102,7 @@ GameObject:
   - component: {fileID: 8408540454163171738}
   - component: {fileID: 8408540454163171741}
   m_Layer: 0
-  m_Name: up light
+  m_Name: UP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26217,7 +26217,7 @@ GameObject:
   - component: {fileID: 8408540454428423709}
   - component: {fileID: 8408540454428423708}
   m_Layer: 0
-  m_Name: right light
+  m_Name: RIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26298,7 +26298,7 @@ GameObject:
   - component: {fileID: 8408540454454550614}
   - component: {fileID: 8408540454454550601}
   m_Layer: 0
-  m_Name: up light
+  m_Name: UP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26637,7 +26637,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8408540454907669445}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46348dd659dc446a9b0a19cd9b751f44, type: 3}
   m_Name: 
@@ -31409,7 +31409,7 @@ GameObject:
   - component: {fileID: 8408540455024661531}
   - component: {fileID: 8408540455024661530}
   m_Layer: 0
-  m_Name: down light
+  m_Name: DOWN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31527,7 +31527,7 @@ GameObject:
   - component: {fileID: 8408540455309278920}
   - component: {fileID: 8408540455309278923}
   m_Layer: 0
-  m_Name: left light
+  m_Name: LEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31715,6 +31715,7 @@ GameObject:
   - component: {fileID: 8408540455521962324}
   - component: {fileID: 880586656}
   - component: {fileID: 880586657}
+  - component: {fileID: 1212272466}
   m_Layer: 2
   m_Name: Player1
   m_TagString: Player
@@ -31757,15 +31758,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementKeys: 61000000640000007700000073000000
+  flashlightKey: 304
   entityType: 0
   facingDirection: 1
-  flashlightKey: 304
   pressDuration: 0.25
   pressCount: 0
-  turnOnFlashlightFeedbacks: {fileID: 8408540455676369607}
-  turnOffFlashlightFeedbacks: {fileID: 8408540453883445948}
-  turnOnDoubleFlashlightFeedbacks: {fileID: 2023981327}
-  turnOffDoubleFlashlightFeedbacks: {fileID: 179208256}
 --- !u!114 &8408540455521962322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31959,6 +31956,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.69, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1212272466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8408540455521962334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5722d151b2f364560a6fe0b1f5782cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnOnFlashlightFeedbacks: {fileID: 8408540455676369607}
+  turnOffFlashlightFeedbacks: {fileID: 8408540453883445948}
+  turnOnDoubleFlashlightFeedbacks: {fileID: 2023981327}
+  turnOffDoubleFlashlightFeedbacks: {fileID: 179208256}
 --- !u!1 &8408540455588290521
 GameObject:
   m_ObjectHideFlags: 0
@@ -32042,6 +32055,7 @@ GameObject:
   - component: {fileID: 8408540455654491184}
   - component: {fileID: 310583844}
   - component: {fileID: 310583845}
+  - component: {fileID: 231485505}
   m_Layer: 2
   m_Name: Player2
   m_TagString: Player
@@ -32085,15 +32099,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementKeys: 61000000640000007700000073000000
+  flashlightKey: 304
   entityType: 1
   facingDirection: 1
-  flashlightKey: 304
   pressDuration: 0.25
   pressCount: 0
-  turnOnFlashlightFeedbacks: {fileID: 8408540453883160334}
-  turnOffFlashlightFeedbacks: {fileID: 8408540454532914562}
-  turnOnDoubleFlashlightFeedbacks: {fileID: 1646662346}
-  turnOffDoubleFlashlightFeedbacks: {fileID: 621423933}
 --- !u!114 &8408540455654491198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32287,6 +32297,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.69, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &231485505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8408540455654491194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5722d151b2f364560a6fe0b1f5782cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnOnFlashlightFeedbacks: {fileID: 8408540453883160334}
+  turnOffFlashlightFeedbacks: {fileID: 8408540454532914562}
+  turnOnDoubleFlashlightFeedbacks: {fileID: 1646662346}
+  turnOffDoubleFlashlightFeedbacks: {fileID: 621423933}
 --- !u!1 &8408540455672127688
 GameObject:
   m_ObjectHideFlags: 0
@@ -32588,7 +32614,7 @@ GameObject:
   - component: {fileID: 8408540455688241655}
   - component: {fileID: 8408540455688241654}
   m_Layer: 0
-  m_Name: down light
+  m_Name: DOWN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32669,7 +32695,7 @@ GameObject:
   - component: {fileID: 8408540455738941923}
   - component: {fileID: 8408540455738941922}
   m_Layer: 0
-  m_Name: right light
+  m_Name: RIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

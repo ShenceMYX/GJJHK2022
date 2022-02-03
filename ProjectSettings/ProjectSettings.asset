@@ -555,6 +555,7 @@ PlayerSettings:
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
     1: MOREMOUNTAINS_FEEDBACKS;MOREMOUNTAINS_CINEMACHINE_INSTALLED
+    13: MOREMOUNTAINS_FEEDBACKS
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

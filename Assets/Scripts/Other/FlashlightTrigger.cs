@@ -25,7 +25,7 @@ namespace ns
 
                 flashlightUI.SetActive(true);
 
-                PlayerInstance.Instance.GetComponent<FlashlightController>().enabled = true;
+                PlayerInstance.Instance.GetComponent<DoubleFlashlightController>().enabled = true;
 
                 gameObject.SetActive(false);
             }

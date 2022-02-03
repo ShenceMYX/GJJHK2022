@@ -179,6 +179,33 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
 
     #region API
+    /// <summary>
+    /// Convert Direction to corresponding direction in Vector2
+    /// </summary>
+    /// <param name="direction">direction enum</param>
+    /// <returns></returns>
+    public Vector2 ConvertDirectionToVector2(TilemapSwapper.Direction direction)
+    {
+        Vector2 dir = Vector2.zero;
+        switch (direction)
+        {
+            case TilemapSwapper.Direction.UP:
+                dir = new Vector2(0, 1);
+                break;
+            case TilemapSwapper.Direction.DOWN:
+                dir = new Vector2(0, -1);
+                break;
+            case TilemapSwapper.Direction.LEFT:
+                dir = new Vector2(-1, 0);
+                break;
+            case TilemapSwapper.Direction.RIGHT:
+                dir = new Vector2(1, 0);
+                break;
+            default:
+                break;
+        }
+        return dir;
+    }
 
     /// <summary>
     /// Select the grid which contains all the current room's tilemaps
@@ -911,59 +938,59 @@ public class TilemapSwapper : MonoSingleton<TilemapSwapper>
 
     #region GIZMOS
 
-    void OnDrawGizmos()
-    {
-        Tilemap tilemap = grid.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
+    //void OnDrawGizmos()
+    //{
+    //    Tilemap tilemap = grid.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
 
-        if (tilemap == null) return;
+    //    if (tilemap == null) return;
 
-        if (IsDrawCellCoordinates)
-        {
-            for (int i = -CellCoordinateRange.x/2; i < CellCoordinateRange.x/2; i++)
-            {
-                for (int j = -CellCoordinateRange.y/2; j < CellCoordinateRange.y/2; j++)
-                {
-                    Vector3 pos = grid.CellToWorld(new Vector3Int(i, j, 0));
-                    Handles.Label(new Vector3(pos.x + tilemap.cellSize.x/8,
-                    pos.y + tilemap.cellSize.y/2, pos.z + tilemap.cellSize.z / 2), "(" + i + "," + j + ")");
-                }
-            }
-        }
-    }
+    //    if (IsDrawCellCoordinates)
+    //    {
+    //        for (int i = -CellCoordinateRange.x/2; i < CellCoordinateRange.x/2; i++)
+    //        {
+    //            for (int j = -CellCoordinateRange.y/2; j < CellCoordinateRange.y/2; j++)
+    //            {
+    //                Vector3 pos = grid.CellToWorld(new Vector3Int(i, j, 0));
+    //                Handles.Label(new Vector3(pos.x + tilemap.cellSize.x/8,
+    //                pos.y + tilemap.cellSize.y/2, pos.z + tilemap.cellSize.z / 2), "(" + i + "," + j + ")");
+    //            }
+    //        }
+    //    }
+    //}
 
     #endregion
 
 }
 
 
-[CustomEditor(typeof(TilemapSwapper))]
-public class TilemapSwapperEditor: Editor
-{
-    public void OnSceneGUI()
-    {
-        TilemapSwapper t = target as TilemapSwapper;
-        Grid grid = t.GetCurrentGrid();
-        Camera camera = SceneView.currentDrawingSceneView.camera;
-        Tilemap tilemap = grid.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
+//[CustomEditor(typeof(TilemapSwapper))]
+//public class TilemapSwapperEditor: Editor
+//{
+//    public void OnSceneGUI()
+//    {
+//        TilemapSwapper t = target as TilemapSwapper;
+//        Grid grid = t.GetCurrentGrid();
+//        Camera camera = SceneView.currentDrawingSceneView.camera;
+//        Tilemap tilemap = grid.transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
 
-        if (tilemap == null) return;
+//        if (tilemap == null) return;
 
-        Vector2Int upleft = new Vector2Int(tilemap.cellBounds.xMin, tilemap.cellBounds.yMax);
+//        Vector2Int upleft = new Vector2Int(tilemap.cellBounds.xMin, tilemap.cellBounds.yMax);
 
-        if (t.IsDrawCurrentCellPos)
-        {
-            Vector3 mousePosition = new Vector3();
-            mousePosition.x = Event.current.mousePosition.x;
-            mousePosition.y = camera.pixelHeight - Event.current.mousePosition.y;
-            mousePosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, camera.nearClipPlane));
-            Vector3Int cell = grid.WorldToCell(mousePosition);
-            Vector3 pos = grid.CellToWorld(cell);
-            Handles.DrawWireCube(new Vector3(pos.x + tilemap.cellSize.x / 2,
-                    pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), tilemap.cellSize);
-            Handles.Label(new Vector3(mousePosition.x, mousePosition.y + tilemap.cellSize.y, 0), "Current Tile: " + "(" + cell.x + "," + cell.y + ")");
-        }
-    }
-}
+//        if (t.IsDrawCurrentCellPos)
+//        {
+//            Vector3 mousePosition = new Vector3();
+//            mousePosition.x = Event.current.mousePosition.x;
+//            mousePosition.y = camera.pixelHeight - Event.current.mousePosition.y;
+//            mousePosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, camera.nearClipPlane));
+//            Vector3Int cell = grid.WorldToCell(mousePosition);
+//            Vector3 pos = grid.CellToWorld(cell);
+//            Handles.DrawWireCube(new Vector3(pos.x + tilemap.cellSize.x / 2,
+//                    pos.y + tilemap.cellSize.y / 2, pos.z + tilemap.cellSize.z / 2), tilemap.cellSize);
+//            Handles.Label(new Vector3(mousePosition.x, mousePosition.y + tilemap.cellSize.y, 0), "Current Tile: " + "(" + cell.x + "," + cell.y + ")");
+//        }
+//    }
+//}
 
 
 public class OffsetDepth : IComparable

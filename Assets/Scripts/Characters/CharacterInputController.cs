@@ -13,17 +13,22 @@ namespace ns
 	{
 		private CharacterMotor motor;
         private Animator characterAnim;
-        private GameObject[] lightSps;
-        private GameObject[] doubleRangeLightSps;
+        
 
         public KeyCode[] movementKeys = new KeyCode[4] { KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.S };
+        private Dictionary<TilemapSwapper.Direction, KeyCode> movementKeysDIC = new Dictionary<TilemapSwapper.Direction, KeyCode>
+        {
+            { TilemapSwapper.Direction.LEFT, KeyCode.A },
+            { TilemapSwapper.Direction.RIGHT, KeyCode.D },
+            { TilemapSwapper.Direction.UP, KeyCode.W },
+            { TilemapSwapper.Direction.DOWN, KeyCode.S }
+        };
+
+        public KeyCode flashlightKey = KeyCode.LeftShift;
 
         public TilemapSwapper.Entity entityType = TilemapSwapper.Entity.B;
         public TilemapSwapper.Direction facingDirection;
         private TilemapSwapper.Direction initialFacingDirection;
-
-        private bool isFlashlightOpened = false;
-        public KeyCode flashlightKey = KeyCode.LeftShift;
 
         private float startPressTime;
         public float pressDuration = 1f;
@@ -32,44 +37,20 @@ namespace ns
 
         public event Func<TilemapSwapper.Entity, Vector2, bool> isAboutToMoveHandler;
 
-        public MMFeedbacks turnOnFlashlightFeedbacks;
-        public MMFeedbacks turnOffFlashlightFeedbacks;
-
-        public MMFeedbacks turnOnDoubleFlashlightFeedbacks;
-        public MMFeedbacks turnOffDoubleFlashlightFeedbacks;
+        private FlashlightController flashlightController;
 
         private void Awake()
         {
             motor = GetComponent<CharacterMotor>();
+            flashlightController = GetComponent<FlashlightController>();
             characterAnim = transform.GetChild(0).GetComponent<Animator>();
             initialFacingDirection = facingDirection;
-
-            lightSps = new GameObject[4];
-            Transform lightTF = transform.Find("light");
-            if (lightTF != null)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    lightSps[i] = lightTF.GetChild(i).gameObject;
-                }
-            }
-
-            doubleRangeLightSps = new GameObject[4];
-            Transform doubleLightTF = transform.Find("doublelight");
-            if (doubleLightTF != null)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    doubleRangeLightSps[i] = doubleLightTF.GetChild(i).gameObject;
-                }
-            }
         }
 
         private void OnEnable()
         {
-            SetAnimationState();
+            UpdateAnimationState();
         }
-
 
         private void Update()
         {
@@ -83,101 +64,34 @@ namespace ns
 
         private void MovementControlDetection()
         {
-            // Update Movement Key
-            for (int i = 0; i < movementKeys.Length; i++)
+            foreach (KeyValuePair<TilemapSwapper.Direction, KeyCode> pair in movementKeysDIC)
             {
-                if (Input.GetKey(movementKeys[i]))
-                {
-                    if (isFlashlightOpened)
-                    {
-                        TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
-                        if (isFlashlightOpened)
-                        {
-                            turnOffFlashlightFeedbacks?.PlayFeedbacks();
-                            isFlashlightOpened = false;
-                        }
-                        characterAnim.SetBool("flashlight", false);
-                        if (FlashlightUIManager.Instance.flashlightCount > 0)
-                        {
-                            foreach (var light in doubleRangeLightSps)
-                            {
-                                light.SetActive(false);
-                            }
-                        }
-                        else
-                        {
-                            foreach (var light in lightSps)
-                            {
-                                light.SetActive(false);
-                            }
-                        }
-                        
+                if (!Input.GetKey(pair.Value)) continue;
 
-                    }
+                if (flashlightController.isFlashlightOpened)
+                    flashlightController.HandleFlashlightOnOff(entityType, facingDirection);
 
-                    if (motor.reachTarget)
-                    {
-                        startPressTime += Time.deltaTime;
-                        switch (i)
-                        {
-                            //(int)KeyCode.A
-                            case 0:
-                                if(facingDirection == TilemapSwapper.Direction.LEFT)
-                                {
-                                    Movement(new Vector2(-1, 0));
+                HandleCharacterMovement(pair.Key);
 
-                                }
-                                facingDirection = TilemapSwapper.Direction.LEFT;
-                                //if(isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.LEFT);
-                                break;
-                            //(int)KeyCode.D
-                            case 1:
-                                if (facingDirection == TilemapSwapper.Direction.RIGHT)
-                                {
-                                    Movement(new Vector2(1, 0));
+                UpdateAnimationState();
 
-                                }
-                                facingDirection = TilemapSwapper.Direction.RIGHT;
-                                //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.RIGHT);
-                                break;
-                            //(int)KeyCode.W
-                            case 2:
-                                if (facingDirection == TilemapSwapper.Direction.UP)
-                                {
-                                    Movement(new Vector2(0, 1));
-
-                                }
-                                facingDirection = TilemapSwapper.Direction.UP;
-                                //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.UP);
-                                break;
-                            //(int)KeyCode.S
-                            case 3:
-                                if (facingDirection == TilemapSwapper.Direction.DOWN)
-                                {
-                                    Movement(new Vector2(0, -1));
-
-                                }
-                                facingDirection = TilemapSwapper.Direction.DOWN;
-                                //if (isFlashlightOpened) TilemapSwapper.Instance.ChangeTilemap(entityType, TilemapSwapper.Direction.DOWN);
-                                break;
-                            default:
-                                break;
-                        }
-
-                    }
-
-                    SetAnimationState();
-                    //TilemapSwapper.Instance.UpdateTilemap(entityType);
-
-                    lastPressTime = Time.time;
-                }
-
+                lastPressTime = Time.time;
             }
 
             if (Time.time - lastPressTime > 0.1)
                 pressCount = 0;
 
             
+        }
+
+        private void HandleCharacterMovement(TilemapSwapper.Direction direction)
+        {
+            if (!motor.reachTarget) return;
+            startPressTime += Time.deltaTime;
+
+            if (facingDirection == direction)
+                Movement(TilemapSwapper.Instance.ConvertDirectionToVector2(facingDirection));
+            facingDirection = direction;
         }
 
         private void Movement(Vector2 dir)
@@ -188,7 +102,6 @@ namespace ns
             {
                 motor.Movement(dir);
                 pressCount++;
-                OnPlayerMove();
                 startPressTime = 0;
             }
             else
@@ -197,86 +110,22 @@ namespace ns
                 {
                     motor.Movement(dir);
                     pressCount++;
-                    OnPlayerMove();
                     startPressTime = 0;
                 }
             }
         }
 
-        private void OnPlayerMove()
-        {
-            //CheckPortal();
-            //CheckDoor();
-        }
-
-        
-
         
         private void FlashlightControlDetection()
         {
             if (!motor.reachTarget) return;
-            if (Input.GetKeyDown(flashlightKey))
-            {
-                isFlashlightOpened = !isFlashlightOpened;
-                characterAnim.SetBool("flashlight", isFlashlightOpened);
-                int flashlightIndex = 0;
-                Vector2 dir = Vector2.zero;
-                switch (facingDirection)
-                {
-                    case TilemapSwapper.Direction.UP:
-                        flashlightIndex = 0;
-                        dir = new Vector2(0, 1);
-                        break;
-                    case TilemapSwapper.Direction.DOWN:
-                        flashlightIndex = 1;
-                        dir = new Vector2(0, -1);
-                        break;
-                    case TilemapSwapper.Direction.LEFT:
-                        flashlightIndex = 2;
-                        dir = new Vector2(-1, 0);
-                        break;
-                    case TilemapSwapper.Direction.RIGHT:
-                        flashlightIndex = 3;
-                        dir = new Vector2(1, 0);
-                        break;
-                    default:
-                        break;
-                }
+            if (!Input.GetKeyDown(flashlightKey)) return;
 
-                if (FlashlightUIManager.Instance.flashlightCount > 0)
-                    doubleRangeLightSps[flashlightIndex].SetActive(isFlashlightOpened);
-                else
-                    lightSps[flashlightIndex].SetActive(isFlashlightOpened);
-
-                if (isFlashlightOpened)
-                {
-                    TilemapSwapper.Instance.ChangeTilemap(entityType, facingDirection);
-
-                    if (FlashlightUIManager.Instance.flashlightCount > 0)
-                    {
-                        turnOnDoubleFlashlightFeedbacks?.PlayFeedbacks(transform.position + new Vector3(dir.x * 2, dir.y * 2 - 0.73f, 0));
-                    }
-
-                    turnOnFlashlightFeedbacks?.PlayFeedbacks(transform.position + new Vector3(dir.x, dir.y - 0.73f, 0));
-
-                }
-                else
-                {
-                    TilemapSwapper.Instance.RestoreTilemap(entityType, facingDirection);
-
-                    if (FlashlightUIManager.Instance.flashlightCount > 0)
-                    {
-                        FlashlightUIManager.Instance.DecreaseFlashlight();
-                        turnOffDoubleFlashlightFeedbacks?.PlayFeedbacks();
-                    }
-                    
-                    turnOffFlashlightFeedbacks?.PlayFeedbacks();
-
-                }
-            }
+            flashlightController.HandleFlashlightOnOff(entityType, facingDirection);
         }
 
-        private void SetAnimationState()
+
+        private void UpdateAnimationState()
         {
             switch (facingDirection)
             {
@@ -304,7 +153,7 @@ namespace ns
         public void ResetFacingDir()
         {
             facingDirection = initialFacingDirection;
-            SetAnimationState();
+            UpdateAnimationState();
         }
 
     }
